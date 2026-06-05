@@ -1,6 +1,6 @@
 # Ocevia Lab
 
-Marketing website for Ocevia Lab — a software engineering studio based in Sri Lanka.
+ website for Ocevia Lab — a software engineering studio based in Sri Lanka.
 
 ## Stack
 
