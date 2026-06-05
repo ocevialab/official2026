@@ -76,16 +76,38 @@
 
 /* Uniform project card image area on the projects page */
 .project-card-media {
-  aspect-ratio: 4 / 3;
+  position: relative;
   width: 100%;
+  height: 15rem;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
-.project-card-media picture,
+@media (min-width: 768px) {
+  .project-card-media {
+    height: 17.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .project-card-media {
+    height: 20rem;
+  }
+}
+
+.project-card-media picture {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
 .project-card-media img {
   display: block;
   height: 100%;
   width: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* —— Motion —— */

@@ -16,7 +16,7 @@ export function ProjectImage({
   loading = 'lazy',
 }: ProjectImageProps) {
   return (
-    <picture className={className}>
+    <picture className={`block h-full w-full ${className}`.trim()}>
       <source media="(max-width: 767px)" srcSet={mobile} />
       <img src={desktop} alt={alt} className={imgClassName} loading={loading} />
     </picture>
