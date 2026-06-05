@@ -1,0 +1,246 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Host Grotesk';
+  src: url('./assets/Host_Grotesk/HostGrotesk-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Host Grotesk';
+  src: url('./assets/Host_Grotesk/HostGrotesk-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: 'Host Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Host Grotesk', Georgia, 'Times New Roman', serif;
+  --color-white: #ffffff;
+  --color-navy: #191970;
+  --color-cobalt: #0047ab;
+  --color-grid-border: #353935;
+  --color-border: #353935;
+  --color-brand-blue: #0047ab;
+  --color-brand-navy: #191970;
+  --color-ink: #000000;
+  --color-muted: #4a4a4a;
+  /* Opaque mixes so card-grid gaps do not darken transparent fills */
+  --color-cobalt-tint: color-mix(in srgb, var(--color-cobalt) 8%, white);
+  --color-navy-tint: color-mix(in srgb, var(--color-navy) 6%, white);
+  --spacing-section-x: 1.5rem;
+  --header-height: 4.5rem;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --spacing-section-x: 4rem;
+    --header-height: 5rem;
+  }
+}
+
+.section-x {
+  padding-inline: var(--spacing-section-x);
+}
+
+/* Gap reveals border color between rounded cards (bento-style) */
+.card-grid {
+  gap: 1px;
+  padding: 1px;
+  background-color: var(--color-grid-border);
+}
+
+.card-grid > * {
+  border-radius: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .card-grid > * {
+    border-radius: 1.25rem;
+  }
+}
+
+/* Bento cards fill one viewport height (header excluded) */
+.bento-grid {
+  min-height: calc(100dvh - var(--header-height));
+}
+
+@media (min-width: 768px) {
+  .bento-grid {
+    height: calc(100dvh - var(--header-height));
+  }
+}
+
+/* Uniform project card image area on the projects page */
+.project-card-media {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.project-card-media picture,
+.project-card-media img {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+/* —— Motion —— */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-page-enter {
+  animation: fade-in-up 0.55s ease-out both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out both;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.5s ease-out both;
+}
+
+.stagger-1 {
+  animation-delay: 0.08s;
+}
+.stagger-2 {
+  animation-delay: 0.16s;
+}
+.stagger-3 {
+  animation-delay: 0.24s;
+}
+.stagger-4 {
+  animation-delay: 0.32s;
+}
+
+.card-interactive {
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.card-interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px -12px rgb(53 57 53 / 0.18);
+}
+
+.img-hover-zoom {
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .img-hover-zoom {
+  transform: scale(1.06);
+}
+
+.pill-interactive {
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.pill-interactive:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px -4px rgb(53 57 53 / 0.2);
+}
+
+.btn-interactive {
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgb(0 71 171 / 0.35);
+}
+
+.btn-interactive:active {
+  transform: translateY(0);
+}
+
+.link-hover {
+  transition: color 0.2s ease, gap 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-page-enter,
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-scale-in {
+    animation: none;
+  }
+
+  .card-interactive:hover,
+  .pill-interactive:hover,
+  .btn-interactive:hover {
+    transform: none;
+  }
+
+  .group:hover .img-hover-zoom {
+    transform: none;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: #ffffff;
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100svh;
+}
