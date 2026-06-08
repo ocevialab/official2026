@@ -1,5 +1,8 @@
-const LANDSCAPE_ANIMATION = '/animations/hero.json'
-const PORTRAIT_ANIMATION = '/animations/hero-mobile.json'
+import landscapeAnimationUrl from '../assets/lottie/0607.json?url'
+import portraitAnimationUrl from '../assets/lottie/0608.json?url'
+
+const LANDSCAPE_ANIMATION = landscapeAnimationUrl
+const PORTRAIT_ANIMATION = portraitAnimationUrl
 
 const cache = new Map<string, Promise<object>>()
 
