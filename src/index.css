@@ -171,6 +171,12 @@
   animation-delay: 0.32s;
 }
 
+.hero-text-shadow {
+  text-shadow:
+    0 2px 24px rgb(0 0 0 / 0.75),
+    0 1px 4px rgb(0 0 0 / 0.9);
+}
+
 .card-interactive {
   transition:
     transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
@@ -252,11 +258,14 @@
 }
 
 html {
+  margin: 0;
+  padding: 0;
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  padding: 0;
   font-family: var(--font-sans);
   background: #ffffff;
   color: var(--color-ink);

@@ -1,7 +1,5 @@
-import affinityFallback from '../assets/Affinitylanka.jpg'
+import technicalExperts from '../assets/Technical-experts.jpg'
 import beeMartDesktop from '../assets/bee-mart-desktop.png'
-import beeMartMobile from '../assets/bee-mart-mobile.png'
-import beeMartDetail from '../assets/project_details_bee-mart.jpg'
 import nimalDesktop from '../assets/Nimalsafari-desktop.jpg'
 import nimalMobile from '../assets/Nimalsafari-mobile.jpg'
 import nimalDetail from '../assets/project_details_Nimalsafari.jpg'
@@ -10,9 +8,7 @@ import realsoulMobile from '../assets/realsoul-photography-mobile.jpg'
 import realsoulDetail from '../assets/project_details_realsoul-photography.jpeg'
 import safebusDesktop from '../assets/safebus-desktop.jpg'
 import safebusDetail from '../assets/project_details_safebus.jpg'
-import tracksafeDesktop from '../assets/tracksafe365-desktop.jpg'
 import tracksafeMobile from '../assets/tracksafe365-mobile.png'
-import tracksafeDetail from '../assets/project_details_tracksafe365.jpg'
 
 export const projectFilters = [
   'All',
@@ -73,27 +69,26 @@ export const projects: Project[] = [
     previewUrl: 'https://nimalsafari.com/',
   },
   {
-    slug: 'affinity-lanka',
-    title: 'Affinity Lanka',
-    tags: ['UI / UX Design', 'Web Development', 'Brand Identity'],
+    slug: 'technical-experts-service',
+    title: 'Technical Experts Service',
+    tags: ['UI / UX Design', 'Frontend Development'],
     categories: ['Web Design', 'UI/UX Design'],
     description:
-      'We designed and developed Affinity Lanka, a comprehensive tourism website built to connect travelers directly with curated travel packages.',
+      'We delivered UI/UX design and frontend development for Technical Experts Service, creating a modern, professional web experience for their maintenance and technical services.',
     images: {
-      desktop: affinityFallback,
-      mobile: affinityFallback,
-      detail: affinityFallback,
+      desktop: technicalExperts,
+      mobile: technicalExperts,
+      detail: technicalExperts,
     },
     longDescription: [
-      'We designed and developed **Affinity Lanka**, a comprehensive tourism website built to connect travelers directly with curated travel packages. The primary goal was to create a modern, intuitive platform that facilitates seamless browsing, easy customization, and secure booking, enhancing the entire travel planning experience from start to finish.',
-      'Our team focused heavily on the user experience, implementing beautiful, inspiring design trends to create an interface that is clean, engaging, and easy for tourists to navigate. The website provides a direct and secure channel for users to discover unique destinations, compare package details, and book their dream vacation, ultimately driving more conversions and customer satisfaction for Affinity Lanka.',
+      'We partnered with **Technical Experts Service** to design and build a polished digital presence for their maintenance and technical services business. Our work covered the full **UI/UX design** process—from wireframes and visual design through to a responsive, production-ready **frontend** implementation.',
+      'The result is a clean, trustworthy interface that communicates professionalism at a glance, guides visitors to key services, and performs smoothly across desktop and mobile devices.',
     ],
     info: {
-      category: 'Web Application Design & Development',
+      category: 'UI/UX Design & Frontend Development',
       location: 'Sri Lanka',
       dated: '10-Apr-2025',
     },
-    previewUrl: 'https://www.affinitylanka.com/',
   },
   {
     slug: 'realsoul-photography',
@@ -151,8 +146,8 @@ export const projects: Project[] = [
       'We designed Bee Mart as a unique e-commerce web application for selling traditional Sri Lankan snacks.',
     images: {
       desktop: beeMartDesktop,
-      mobile: beeMartMobile,
-      detail: beeMartDetail,
+      mobile: beeMartDesktop,
+      detail: beeMartDesktop,
     },
     longDescription: [
       'We designed Bee Mart as a unique e-commerce web application for selling traditional Sri Lankan snacks. The design phase, which is now complete, focused on an "uncommon" and engaging layout that sets it apart from typical online stores, creating a memorable brand experience.',
@@ -174,9 +169,9 @@ export const projects: Project[] = [
     description:
       'We designed and developed TRACKSAFE365, a bespoke mobile application built to connect a physiotherapist directly with her patients.',
     images: {
-      desktop: tracksafeDesktop,
+      desktop: tracksafeMobile,
       mobile: tracksafeMobile,
-      detail: tracksafeDetail,
+      detail: tracksafeMobile,
     },
     longDescription: [
       'We designed and developed TRACKSAFE365, a bespoke mobile application built to connect a physiotherapist directly with her patients. The primary goal was to create a modern, intuitive platform that facilitates seamless communication, remote monitoring, and enhances the therapeutic relationship outside of the clinic.',
@@ -201,5 +196,12 @@ export function filterProjects(filter: ProjectFilter): Project[] {
   return projects.filter((project) => project.categories.includes(filter))
 }
 
-/** Hero image for the home bento "View our projects" card */
-export const bentoProjectsShowcase = projects[0]
+/** Featured projects for the home page bento grid */
+export const homeBentoProjects = {
+  tall: projects.find((p) => p.slug === 'technical-experts-service')!,
+  feature: projects.find((p) => p.slug === 'Nimal-safari')!,
+  compact: [
+    projects.find((p) => p.slug === 'bee-mart')!,
+    projects.find((p) => p.slug === 'tracksafe365')!,
+  ],
+} as const
