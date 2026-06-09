@@ -3,8 +3,11 @@ import aboutDiscover from '../../assets/about 1.jpg'
 import aboutDesign from '../../assets/about 2.jpeg'
 import aboutBuild from '../../assets/about 3.jpeg'
 import aboutLaunch from '../../assets/about 4.jpg'
+import { Button } from '../ui/Button'
 
 const STEP_DURATION_MS = 3500
+
+const GRID_COLS = 'md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]'
 
 const steps = [
   {
@@ -89,7 +92,21 @@ const steps = [
   },
 ]
 
-export function HowWeWorkSection() {
+type HowWeWorkSectionProps = {
+  title: string
+  description: string
+  buttonLabel: string
+  buttonTo?: string
+  buttonHref?: string
+}
+
+export function HowWeWorkSection({
+  title,
+  description,
+  buttonLabel,
+  buttonTo,
+  buttonHref,
+}: HowWeWorkSectionProps) {
   const [activeStep, setActiveStep] = useState(0)
   const sectionRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
@@ -126,8 +143,21 @@ export function HowWeWorkSection() {
   return (
     <div
       ref={sectionRef}
-      className="card-grid grid w-full grid-cols-1 lg:grid-cols-[1.05fr_1fr] lg:items-stretch"
+      className={`card-grid animate-fade-in-up grid w-full grid-cols-1 ${GRID_COLS} lg:items-stretch`}
     >
+      <div className="flex flex-col gap-6 p-8 lg:p-12">
+        <h2 className="text-3xl font-bold uppercase leading-tight tracking-tight text-ink md:text-4xl lg:text-5xl">
+          {title}
+        </h2>
+        <div className="w-fit">
+          <Button to={buttonTo} href={buttonHref}>
+            {buttonLabel}
+          </Button>
+        </div>
+      </div>
+
+      <p className="p-8 text-base leading-relaxed text-muted md:text-lg lg:p-12">{description}</p>
+
       <div className="relative min-h-72 sm:min-h-80 lg:min-h-0">
         {steps.map((step, index) => (
           <img

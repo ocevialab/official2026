@@ -26,14 +26,14 @@ export function ServicesPage() {
         </div>
       </PageSection>
 
-      <PageSection
-        title="How We Work"
-        description="No confusion or delays—just a clear process from discovery to launch. We adapt to your stage with workshops, MVPs, or dedicated squads."
-        buttonLabel="WhatsApp US"
-        buttonHref="https://wa.me/1234567890"
-      >
-        <HowWeWorkSection />
-      </PageSection>
+      <section className="animate-fade-in-up w-full bg-white">
+        <HowWeWorkSection
+          title="How We Work"
+          description="No confusion or delays—just a clear process from discovery to launch. We adapt to your stage with workshops, MVPs, or dedicated squads."
+          buttonLabel="WhatsApp US"
+          buttonHref="https://wa.me/1234567890"
+        />
+      </section>
     </div>
   )
 }

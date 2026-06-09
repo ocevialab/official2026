@@ -30,7 +30,7 @@ function BentoCard({ project, className = '' }: BentoCardProps) {
   return (
     <Link
       to={`/projects/${slug}`}
-      className={`card-interactive card-media group relative flex min-h-[calc(100dvh-var(--header-height))] flex-col overflow-hidden md:h-full md:min-h-0 ${className}`}
+      className={`card-interactive card-media group relative flex min-h-[280px] flex-col overflow-hidden sm:min-h-[300px] md:h-full md:min-h-0 ${className}`}
     >
       <ProjectImage
         desktop={images.desktop}

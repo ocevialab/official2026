@@ -210,10 +210,6 @@
   }
 }
 
-.bento-grid {
-  min-height: calc(100dvh - var(--header-height));
-}
-
 @media (min-width: 768px) {
   .bento-grid {
     height: calc(100dvh - var(--header-height));
