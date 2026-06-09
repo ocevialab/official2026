@@ -1,11 +1,21 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
 import aboutDiscover from '../../assets/about 1.jpg'
 import aboutDesign from '../../assets/about 2.jpeg'
 import aboutBuild from '../../assets/about 3.jpeg'
 import aboutLaunch from '../../assets/about 4.jpg'
+import {
+  MOTION,
+  prefersReducedMotion,
+  registerGsapPlugins,
+  revealScrollTrigger,
+} from '../../lib/motion'
 import { Button } from '../ui/Button'
 
-const STEP_DURATION_MS = 3500
+registerGsapPlugins()
+
+const STEP_HOLD = 3.2
 
 const GRID_COLS = 'md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]'
 
@@ -109,41 +119,134 @@ export function HowWeWorkSection({
 }: HowWeWorkSectionProps) {
   const [activeStep, setActiveStep] = useState(0)
   const sectionRef = useRef<HTMLDivElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
+  const calloutTitleRef = useRef<HTMLSpanElement>(null)
+  const calloutDetailRef = useRef<HTMLParagraphElement>(null)
 
-  useEffect(() => {
-    const node = sectionRef.current
-    if (!node) return
+  useGSAP(
+    () => {
+      const section = sectionRef.current
+      if (!section) return
 
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.35 },
-    )
+      const cells = gsap.utils.toArray<HTMLElement>(':scope > *', section)
+      const reducedMotion = prefersReducedMotion()
 
-    observer.observe(node)
-    return () => observer.disconnect()
-  }, [])
+      if (reducedMotion) {
+        gsap.set(cells, { clearProps: 'all' })
+        return
+      }
 
-  useEffect(() => {
-    if (!isVisible) return
+      gsap.set(cells, { autoAlpha: 0, y: MOTION.distance })
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
+      const images = gsap.utils.toArray<HTMLImageElement>('[data-how-we-work-image]', section)
+      const rows = gsap.utils.toArray<HTMLDivElement>('[data-how-we-work-step]', section)
+      const dots = gsap.utils.toArray<HTMLSpanElement>('[data-how-we-work-dot]', section)
+      const progressFill = section.querySelector<HTMLDivElement>('[data-how-we-work-progress]')
 
-    const timer = window.setInterval(() => {
-      setActiveStep((current) => (current + 1) % steps.length)
-    }, STEP_DURATION_MS)
+      if (!progressFill || images.length !== steps.length || rows.length !== steps.length) return
 
-    return () => window.clearInterval(timer)
-  }, [isVisible])
+      gsap.set(images, { autoAlpha: 0 })
+      gsap.set(images[0], { autoAlpha: 1 })
+      gsap.set(rows, { backgroundColor: '#ffffff' })
+      gsap.set(rows[0], { backgroundColor: '#b8c9ef' })
 
-  const progressPercent = ((activeStep + 1) / steps.length) * 100
+      const stepTimeline = gsap.timeline({ paused: true, repeat: -1 })
+
+      steps.forEach((step, index) => {
+        stepTimeline.call(() => setActiveStep(index))
+
+        stepTimeline.to(
+          progressFill,
+          {
+            height: `${((index + 1) / steps.length) * 100}%`,
+            duration: 0.65,
+            ease: 'power2.inOut',
+          },
+          index === 0 ? 0 : '>',
+        )
+
+        stepTimeline.to(
+          images,
+          {
+            autoAlpha: (i: number) => (i === index ? 1 : 0),
+            duration: 0.55,
+            ease: 'power2.inOut',
+          },
+          '<',
+        )
+
+        stepTimeline.to(
+          rows,
+          {
+            backgroundColor: (i: number) => (i === index ? '#b8c9ef' : '#ffffff'),
+            duration: 0.45,
+            ease: 'power2.out',
+          },
+          '<',
+        )
+
+        if (dots.length === steps.length) {
+          stepTimeline.to(
+            dots,
+            {
+              scale: (i: number) => (i <= index ? 1.25 : 1),
+              backgroundColor: (i: number) => (i <= index ? '#123498' : '#ffffff'),
+              duration: 0.4,
+              ease: 'power2.out',
+            },
+            '<',
+          )
+        }
+
+        if (calloutTitleRef.current && calloutDetailRef.current) {
+          stepTimeline.to(
+            [calloutTitleRef.current, calloutDetailRef.current],
+            {
+              autoAlpha: 0,
+              duration: 0.15,
+              ease: 'power1.in',
+            },
+            '<0.1',
+          )
+          stepTimeline.call(() => {
+            if (calloutTitleRef.current) calloutTitleRef.current.textContent = step.callout
+            if (calloutDetailRef.current) calloutDetailRef.current.textContent = step.calloutDetail
+          })
+          stepTimeline.to(
+            [calloutTitleRef.current, calloutDetailRef.current],
+            {
+              autoAlpha: 1,
+              duration: 0.35,
+              ease: 'power2.out',
+            },
+          )
+        }
+
+        stepTimeline.to({}, { duration: STEP_HOLD })
+      })
+
+      gsap.timeline({
+        scrollTrigger: {
+          ...revealScrollTrigger(section),
+          onLeaveBack: () => stepTimeline.pause(0),
+        },
+      }).to(cells, {
+        autoAlpha: 1,
+        y: 0,
+        duration: MOTION.duration,
+        stagger: MOTION.stagger,
+        ease: MOTION.ease,
+        onComplete: () => stepTimeline.play(0),
+      })
+    },
+    { scope: sectionRef },
+  )
+
   const activeStepData = steps[activeStep]
 
   return (
     <div
       ref={sectionRef}
-      className={`card-grid animate-fade-in-up grid w-full grid-cols-1 ${GRID_COLS} lg:items-stretch`}
+      className={`card-grid grid w-full grid-cols-1 ${GRID_COLS} lg:items-stretch`}
     >
       <div className="flex flex-col gap-6 p-8 lg:p-12">
         <h2 className="text-3xl font-bold uppercase leading-tight tracking-tight text-ink md:text-4xl lg:text-5xl">
@@ -159,22 +262,23 @@ export function HowWeWorkSection({
       <p className="p-8 text-base leading-relaxed text-muted md:text-lg lg:p-12">{description}</p>
 
       <div className="relative min-h-72 sm:min-h-80 lg:min-h-0">
-        {steps.map((step, index) => (
+        {steps.map((step) => (
           <img
             key={step.number}
+            data-how-we-work-image
             src={step.image}
             alt={step.imageAlt}
-            className={`how-we-work-image absolute inset-0 h-full w-full object-cover ${
-              index === activeStep ? 'opacity-100' : 'opacity-0'
-            }`}
+            className="absolute inset-0 h-full w-full object-cover"
           />
         ))}
 
         <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-rich-black/35 via-transparent to-transparent" />
 
         <div className="absolute right-4 bottom-4 left-4 border border-grid-border bg-white p-4 sm:left-auto sm:w-56 lg:right-6 lg:bottom-6">
-          <span className="grid-label">{activeStepData.callout}</span>
-          <p className="mt-3 text-sm leading-relaxed text-muted transition-opacity duration-500">
+          <span ref={calloutTitleRef} className="grid-label">
+            {activeStepData.callout}
+          </span>
+          <p ref={calloutDetailRef} className="mt-3 text-sm leading-relaxed text-muted">
             {activeStepData.calloutDetail}
           </p>
         </div>
@@ -187,24 +291,22 @@ export function HowWeWorkSection({
         >
           <div className="absolute inset-y-6 left-1/2 w-px -translate-x-1/2 bg-grid-border/40">
             <div
-              className="how-we-work-progress-fill w-full bg-accent"
-              style={{ height: `${progressPercent}%` }}
+              data-how-we-work-progress
+              className="w-full bg-accent"
+              style={{ height: `${((activeStep + 1) / steps.length) * 100}%` }}
             />
           </div>
 
-          {steps.map((step, index) => {
-            const isReached = index <= activeStep
-
-            return (
-              <span
-                key={step.number}
-                className={`how-we-work-progress-dot absolute left-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border border-grid-border transition-transform duration-500 ${
-                  isReached ? 'scale-125 bg-accent' : 'bg-white'
-                }`}
-                style={{ top: `${((index + 0.5) / steps.length) * 100}%` }}
-              />
-            )
-          })}
+          {steps.map((step, index) => (
+            <span
+              key={step.number}
+              data-how-we-work-dot
+              className={`absolute left-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 border border-grid-border ${
+                index <= activeStep ? 'scale-125 bg-accent' : 'bg-white'
+              }`}
+              style={{ top: `${((index + 0.5) / steps.length) * 100}%` }}
+            />
+          ))}
         </div>
 
         <div className="flex min-w-0 flex-1 flex-col divide-y divide-grid-border">
@@ -214,12 +316,13 @@ export function HowWeWorkSection({
             return (
               <div
                 key={step.number}
-                className={`group flex flex-1 gap-5 p-6 transition-colors duration-500 lg:gap-6 lg:p-8 ${
+                data-how-we-work-step
+                className={`group flex flex-1 gap-5 p-6 lg:gap-6 lg:p-8 ${
                   isActive ? 'bg-step-highlight' : 'bg-white hover:bg-step-highlight/35'
                 }`}
               >
                 <div
-                  className={`flex h-12 w-12 shrink-0 items-center justify-center border border-grid-border text-white transition-colors duration-500 ${
+                  className={`flex h-12 w-12 shrink-0 items-center justify-center border border-grid-border text-white ${
                     isActive ? 'bg-cobalt' : 'bg-accent group-hover:bg-cobalt'
                   }`}
                 >
@@ -229,7 +332,13 @@ export function HowWeWorkSection({
                 <div className="min-w-0 flex-1">
                   <div className="flex items-baseline gap-3">
                     <span className="text-sm font-bold tracking-widest text-cobalt">{step.number}</span>
-                    <h3 className="text-lg font-bold uppercase tracking-tight text-ink">{step.title}</h3>
+                    <h3
+                      className={`text-lg font-bold uppercase tracking-tight text-ink ${
+                        isActive ? 'translate-x-1' : ''
+                      }`}
+                    >
+                      {step.title}
+                    </h3>
                   </div>
                   <p className="mt-3 text-sm leading-relaxed text-muted md:text-base">
                     {step.description}

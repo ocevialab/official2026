@@ -15,11 +15,11 @@ export function ServicePageCard({
 }: ServicePageCardProps) {
   return (
     <article className="service-page-card group flex h-full flex-col overflow-hidden bg-white">
-      <div className="relative aspect-[16/10] overflow-hidden border-b border-grid-border">
+      <div className="reveal-clip-target relative aspect-[16/10] overflow-hidden border-b border-grid-border">
         <img
           src={image}
           alt={imageAlt}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          className="img-hover-zoom h-full w-full object-cover"
         />
       </div>
 

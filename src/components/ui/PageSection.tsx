@@ -19,7 +19,7 @@ export function PageSection({
   children,
 }: PageSectionProps) {
   return (
-    <section className="animate-fade-in-up w-full bg-white">
+    <section className="w-full bg-white">
       <SectionContainer className="pb-0">
         <div className="bento-stack">
           <SectionHeader

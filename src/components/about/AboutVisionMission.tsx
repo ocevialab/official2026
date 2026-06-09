@@ -1,3 +1,4 @@
+import { RevealSplit } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
 
 const statements = [
@@ -15,7 +16,7 @@ export function AboutVisionMission() {
   return (
     <section className="w-full bg-white">
       <SectionContainer className="py-14 lg:py-20">
-        <div className="card-grid grid grid-cols-1 md:grid-cols-2">
+        <RevealSplit className="card-grid grid grid-cols-1 md:grid-cols-2">
           {statements.map((item) => (
             <article key={item.title} className="card-interactive p-8 lg:p-12">
               <h3 className="text-xl font-bold uppercase tracking-tight text-ink md:text-2xl">
@@ -24,7 +25,7 @@ export function AboutVisionMission() {
               <p className="mt-6 text-base leading-relaxed text-muted md:text-lg">{item.text}</p>
             </article>
           ))}
-        </div>
+        </RevealSplit>
       </SectionContainer>
     </section>
   )

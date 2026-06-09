@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { homeBentoProjects, type Project } from '../../data/projects'
 import { ProjectImage } from '../ui/ProjectImage'
+import { RevealClipTarget, RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
 import { SectionHeader } from '../ui/SectionHeader'
 
@@ -32,13 +33,15 @@ function BentoCard({ project, className = '' }: BentoCardProps) {
       to={`/projects/${slug}`}
       className={`card-interactive card-media group relative flex min-h-[280px] flex-col overflow-hidden sm:min-h-[300px] md:h-full md:min-h-0 ${className}`}
     >
-      <ProjectImage
-        desktop={images.desktop}
-        mobile={images.mobile}
-        alt={`${title} project preview`}
-        className="absolute inset-0 h-full w-full"
-        imgClassName="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-      />
+      <RevealClipTarget className="absolute inset-0 h-full w-full">
+        <ProjectImage
+          desktop={images.desktop}
+          mobile={images.mobile}
+          alt={`${title} project preview`}
+          className="h-full w-full"
+          imgClassName="img-hover-zoom h-full w-full object-cover"
+        />
+      </RevealClipTarget>
 
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2/5 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
@@ -53,8 +56,10 @@ function BentoCard({ project, className = '' }: BentoCardProps) {
               {title}
             </h3>
           </div>
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/40 bg-accent text-white transition group-hover:bg-brand-navy group-hover:text-white">
-            <ArrowIcon />
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/40 bg-accent text-white transition-colors duration-200 group-hover:bg-brand-navy group-hover:text-white">
+            <span className="micro-arrow inline-flex">
+              <ArrowIcon />
+            </span>
           </span>
         </div>
       </div>
@@ -66,7 +71,7 @@ export function BentoGrid() {
   const { tall, feature, compact } = homeBentoProjects
 
   return (
-    <section className="animate-fade-in-up stagger-1 w-full bg-white">
+    <section className="w-full bg-white">
       <SectionContainer>
         <div className="bento-stack">
           <SectionHeader
@@ -76,13 +81,13 @@ export function BentoGrid() {
             buttonTo="/projects"
           />
 
-          <div className="card-grid bento-grid grid w-full grid-cols-1 md:grid-cols-2 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-2">
+          <RevealStagger className="card-grid bento-grid grid w-full grid-cols-1 md:grid-cols-2 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-2">
             <BentoCard project={tall} className="md:col-span-1 md:row-span-2" />
             <BentoCard project={feature} className="lg:col-span-2" />
             {compact.map((project) => (
               <BentoCard key={project.slug} project={project} />
             ))}
-          </div>
+          </RevealStagger>
         </div>
       </SectionContainer>
     </section>

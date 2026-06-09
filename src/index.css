@@ -43,6 +43,12 @@
   --spacing-bento-gap: 1rem;
   --header-height: 4rem;
   --main-content-offset: calc(var(--header-height) + 1.25rem);
+  --motion-duration-fast: 200ms;
+  --motion-duration-base: 500ms;
+  --motion-duration-slow: 700ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-distance: 32px;
+  --motion-stagger: 120ms;
 }
 
 @media (min-width: 640px) {
@@ -285,7 +291,7 @@
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(var(--motion-distance));
   }
   to {
     opacity: 1;
@@ -294,28 +300,68 @@
 }
 
 .animate-page-enter {
-  animation: fade-in-up 0.45s ease-out both;
+  animation: fade-in-up 0.45s var(--motion-ease) both;
 }
 
 .animate-fade-in {
-  animation: fade-in 0.4s ease-out both;
+  animation: fade-in 0.4s var(--motion-ease) both;
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.5s ease-out both;
+  animation: fade-in-up var(--motion-duration-base) var(--motion-ease) both;
 }
 
 .stagger-1 {
-  animation-delay: 0.08s;
+  animation-delay: calc(var(--motion-stagger) * 1);
 }
 .stagger-2 {
-  animation-delay: 0.16s;
+  animation-delay: calc(var(--motion-stagger) * 2);
 }
 .stagger-3 {
-  animation-delay: 0.24s;
+  animation-delay: calc(var(--motion-stagger) * 3);
 }
 .stagger-4 {
-  animation-delay: 0.32s;
+  animation-delay: calc(var(--motion-stagger) * 4);
+}
+
+.reveal-clip-target {
+  overflow: hidden;
+}
+
+.reveal-line-indicator {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: var(--color-grid-border);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--motion-duration-fast) var(--motion-ease);
+}
+
+.faq-panel-open {
+  grid-template-rows: 1fr;
+}
+
+.faq-panel-inner {
+  overflow: hidden;
+}
+
+.faq-toggle-icon {
+  transition:
+    transform var(--motion-duration-fast) var(--motion-ease),
+    background-color var(--motion-duration-fast) ease,
+    border-color var(--motion-duration-fast) ease,
+    color var(--motion-duration-fast) ease;
+}
+
+.faq-toggle-icon-open {
+  transform: rotate(45deg);
 }
 
 .hero-text-shadow {
@@ -325,7 +371,10 @@
 }
 
 .card-interactive {
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color var(--motion-duration-fast) ease,
+    color var(--motion-duration-fast) ease,
+    border-color var(--motion-duration-fast) ease;
 }
 
 .card-interactive:hover {
@@ -362,35 +411,85 @@
 }
 
 .img-hover-zoom {
-  transition: transform 0.4s ease;
+  transition: transform var(--motion-duration-base) var(--motion-ease);
 }
 
 .group:hover .img-hover-zoom {
-  transform: scale(1.03);
+  transform: scale(1.02);
+}
+
+.micro-arrow {
+  transition: transform var(--motion-duration-fast) var(--motion-ease);
+}
+
+.group:hover .micro-arrow {
+  transform: translate(2px, -2px);
+}
+
+.micro-link {
+  position: relative;
+  transition: color var(--motion-duration-fast) ease;
+}
+
+.micro-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--motion-duration-fast) var(--motion-ease);
+}
+
+.micro-link:hover::after {
+  transform: scaleX(1);
+}
+
+.input-interactive {
+  transition:
+    background-color var(--motion-duration-fast) ease,
+    border-color var(--motion-duration-fast) ease;
+}
+
+.input-interactive:focus {
+  border-color: var(--color-accent);
 }
 
 .pill-interactive {
   transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease,
-    color 0.15s ease;
+    background-color var(--motion-duration-fast) ease,
+    border-color var(--motion-duration-fast) ease,
+    color var(--motion-duration-fast) ease,
+    transform var(--motion-duration-fast) var(--motion-ease);
 }
 
 .pill-interactive:hover {
   background-color: var(--color-accent);
 }
 
+.pill-interactive:active {
+  transform: scale(0.98);
+}
+
 .btn-interactive {
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color var(--motion-duration-fast) ease,
+    color var(--motion-duration-fast) ease,
+    border-color var(--motion-duration-fast) ease,
+    transform var(--motion-duration-fast) var(--motion-ease);
 }
 
 .btn-interactive:hover {
   background-color: var(--color-brand-navy);
   color: var(--color-white);
+  transform: translateY(-1px);
 }
 
 .btn-interactive:active {
-  opacity: 0.9;
+  transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -400,7 +499,15 @@
     animation: none;
   }
 
-  .group:hover .img-hover-zoom {
+  .faq-panel {
+    transition: none;
+  }
+
+  .group:hover .img-hover-zoom,
+  .group:hover .micro-arrow,
+  .btn-interactive:hover,
+  .btn-interactive:active,
+  .pill-interactive:active {
     transform: none;
   }
 }

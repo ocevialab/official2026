@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { homeServices } from '../../data/services'
+import { RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
 import { SectionHeader } from '../ui/SectionHeader'
 
@@ -39,7 +40,7 @@ function ServiceCard({
       className="card-interactive group flex min-h-[280px] flex-col p-6 sm:min-h-[300px] lg:min-h-[320px] lg:p-8"
     >
       <div className="flex justify-end">
-        <ArrowIcon className="shrink-0 text-ink transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
+        <ArrowIcon className="micro-arrow shrink-0 text-ink group-hover:text-white" />
       </div>
 
       <h3 className="mt-6 max-w-[12rem] text-lg font-bold uppercase leading-snug tracking-tight text-ink lg:mt-8 lg:text-xl">
@@ -60,7 +61,7 @@ function ServiceCard({
 
 export function ServicesSection() {
   return (
-    <section className="animate-fade-in-up w-full bg-white">
+    <section className="w-full bg-white">
       <SectionContainer>
         <div className="bento-stack">
           <SectionHeader
@@ -70,11 +71,11 @@ export function ServicesSection() {
             buttonTo="/services"
           />
 
-          <div className="service-card-grid grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <RevealStagger className="service-card-grid grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             {homeServices.map((service) => (
               <ServiceCard key={service.number} {...service} />
             ))}
-          </div>
+          </RevealStagger>
         </div>
       </SectionContainer>
     </section>

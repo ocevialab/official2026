@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Reveal, RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
 
 type FaqItem = {
@@ -52,7 +53,7 @@ function FaqAccordionItem({
       <button
         type="button"
         onClick={onToggle}
-        className={`group flex w-full items-start gap-6 px-6 py-6 text-left transition lg:gap-10 lg:px-8 lg:py-8 ${
+        className={`group flex w-full items-start gap-6 px-6 py-6 text-left transition-colors duration-200 lg:gap-10 lg:px-8 lg:py-8 ${
           isOpen ? 'bg-accent text-white' : 'hover:bg-accent/15'
         }`}
         aria-expanded={isOpen}
@@ -70,17 +71,21 @@ function FaqAccordionItem({
           >
             {item.question}
           </span>
-          {isOpen && (
-            <p className="mt-4 text-sm leading-relaxed text-white/90 md:text-base">{item.answer}</p>
-          )}
+          <div className={`faq-panel ${isOpen ? 'faq-panel-open' : ''}`}>
+            <div className="faq-panel-inner">
+              <p className="mt-4 text-sm leading-relaxed text-white/90 md:text-base">{item.answer}</p>
+            </div>
+          </div>
         </span>
         <span
-          className={`flex h-9 w-9 shrink-0 items-center justify-center border text-lg leading-none transition duration-300 ${
-            isOpen ? 'border-white/40 bg-white text-accent' : 'border-grid-border bg-white text-ink'
+          className={`faq-toggle-icon flex h-9 w-9 shrink-0 items-center justify-center border text-lg leading-none ${
+            isOpen
+              ? 'faq-toggle-icon-open border-white/40 bg-white text-accent'
+              : 'border-grid-border bg-white text-ink'
           }`}
           aria-hidden="true"
         >
-          {isOpen ? '×' : '+'}
+          +
         </span>
       </button>
     </div>
@@ -92,13 +97,15 @@ export function FaqSection() {
 
   return (
     <section className="w-full bg-white">
-      <SectionContainer className="animate-fade-in-up py-14 lg:py-20">
+      <SectionContainer className="py-14 lg:py-20">
         <div className="bento-stack">
-          <h2 className="text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl lg:text-5xl">
-            Frequently asked questions (FAQs)
-          </h2>
+          <Reveal>
+            <h2 className="text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl lg:text-5xl">
+              Frequently asked questions (FAQs)
+            </h2>
+          </Reveal>
 
-          <div className="card-grid border border-grid-border">
+          <RevealStagger className="card-grid border border-grid-border">
             {faqs.map((item, index) => (
               <FaqAccordionItem
                 key={item.question}
@@ -108,7 +115,7 @@ export function FaqSection() {
                 onToggle={() => setOpenIndex(openIndex === index ? -1 : index)}
               />
             ))}
-          </div>
+          </RevealStagger>
         </div>
       </SectionContainer>
     </section>

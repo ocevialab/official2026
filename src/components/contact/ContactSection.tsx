@@ -1,3 +1,4 @@
+import { RevealSplit, RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
 import { Button } from '../ui/Button'
 
@@ -23,12 +24,12 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
   return (
     <section
       id="contact"
-      className={`animate-fade-in-up w-full bg-white ${
+      className={`w-full bg-white ${
         fullScreen ? 'flex min-h-[calc(100dvh-var(--main-content-offset))] items-center' : ''
       }`}
     >
       <SectionContainer className={`w-full ${fullScreen ? 'py-8 lg:py-10' : ''}`}>
-        <div className="card-grid grid w-full grid-cols-1 lg:grid-cols-2">
+        <RevealSplit className="card-grid grid w-full grid-cols-1 lg:grid-cols-2">
           <div className="flex flex-col justify-center p-8 lg:p-12">
             <span className="grid-label mb-6 w-fit">Book a call</span>
             <h1 className="text-4xl font-bold uppercase tracking-tight text-ink md:text-5xl lg:text-6xl">
@@ -55,12 +56,13 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
             </div>
           </div>
 
-          <form
-            className="flex flex-col p-8 lg:p-12"
-            onSubmit={(e) => {
-              e.preventDefault()
-            }}
-          >
+          <RevealStagger className="flex flex-col p-8 lg:p-12">
+            <form
+              className="contents"
+              onSubmit={(e) => {
+                e.preventDefault()
+              }}
+            >
             <label className="block">
               <span className="text-xs font-bold uppercase tracking-widest text-ink">
                 Name <span className="text-muted">*</span>
@@ -69,7 +71,7 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
                 type="text"
                 name="name"
                 required
-                className="mt-2 w-full border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none transition focus:bg-accent"
+                className="input-interactive mt-2 w-full border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent"
               />
             </label>
 
@@ -81,7 +83,7 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
                 type="email"
                 name="email"
                 required
-                className="mt-2 w-full border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none transition focus:bg-accent"
+                className="input-interactive mt-2 w-full border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent"
               />
             </label>
 
@@ -93,7 +95,7 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
                 type="tel"
                 name="phone"
                 required
-                className="mt-2 w-full border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none transition focus:bg-accent"
+                className="input-interactive mt-2 w-full border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent"
               />
             </label>
 
@@ -105,14 +107,21 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
                 name="message"
                 required
                 rows={3}
-                className="mt-2 w-full resize-none border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none transition focus:bg-accent"
+                className="input-interactive mt-2 w-full resize-none border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent"
               />
             </label>
 
             <div className="mt-8">
               <Button type="submit" className="w-full sm:w-auto">
                 Book a call
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  aria-hidden="true"
+                  className="micro-arrow"
+                >
                   <path
                     d="M5 15L15 5M15 5H8M15 5V12"
                     stroke="currentColor"
@@ -126,8 +135,9 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
                 By submitting, you agree to our terms &amp; conditions.
               </p>
             </div>
-          </form>
-        </div>
+            </form>
+          </RevealStagger>
+        </RevealSplit>
       </SectionContainer>
     </section>
   )

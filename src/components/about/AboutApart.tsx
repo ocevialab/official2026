@@ -1,3 +1,4 @@
+import { Reveal, RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
 
 function FeatureIcon() {
@@ -39,7 +40,7 @@ export function AboutApart() {
     <section className="w-full bg-white">
       <SectionContainer className="pb-8 lg:pb-12">
         <div className="bento-stack">
-          <div className="py-14 text-center lg:py-20">
+          <Reveal className="py-14 text-center lg:py-20">
             <h2 className="text-2xl font-bold uppercase tracking-tight text-ink md:text-3xl lg:text-4xl">
               Discover what sets us apart
             </h2>
@@ -47,9 +48,9 @@ export function AboutApart() {
               From first workshop to production launch, we bring clarity, craft, and partnership to
               every engagement—so your team can focus on what matters most.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="card-grid grid w-full grid-cols-1 md:grid-cols-3">
+          <RevealStagger className="card-grid grid w-full grid-cols-1 md:grid-cols-3">
             {features.map((feature) => (
               <article key={feature.title} className="card-interactive p-8 text-left lg:p-10">
                 <FeatureIcon />
@@ -61,7 +62,7 @@ export function AboutApart() {
                 </p>
               </article>
             ))}
-          </div>
+          </RevealStagger>
         </div>
       </SectionContainer>
     </section>

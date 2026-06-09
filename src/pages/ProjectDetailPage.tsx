@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
+import { Reveal, RevealSplit } from '../components/ui/Reveal'
 import { SectionContainer } from '../components/ui/SectionContainer'
 import { getProjectBySlug } from '../data/projects'
 
@@ -43,19 +44,19 @@ export function ProjectDetailPage() {
           >
             ← Back to projects
           </Link>
-          <div className="group aspect-[21/9] w-full overflow-hidden border border-grid-border">
+          <Reveal variant="clip" className="group aspect-[21/9] w-full overflow-hidden border border-grid-border">
             <img
               src={project.images.detail}
               alt={`${project.title} project hero`}
               className="img-hover-zoom h-full w-full object-cover object-center"
             />
-          </div>
+          </Reveal>
         </SectionContainer>
       </section>
 
       <section className="w-full bg-white">
         <SectionContainer className="py-14 lg:py-20">
-          <div className="card-grid grid grid-cols-1 lg:grid-cols-[1.5fr_1fr]">
+          <RevealSplit className="card-grid grid grid-cols-1 lg:grid-cols-[1.5fr_1fr]">
             <div className="p-8 lg:p-12">
               <h1 className="text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl lg:text-5xl">
                 {project.title}
@@ -95,7 +96,7 @@ export function ProjectDetailPage() {
                 </div>
               </dl>
             </aside>
-          </div>
+          </RevealSplit>
         </SectionContainer>
       </section>
     </div>

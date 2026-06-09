@@ -1,34 +1,37 @@
 import about2 from '../../assets/about 2.jpeg'
 import about3 from '../../assets/about 3.jpeg'
+import { Reveal, RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
 
 export function AboutWhoWeAre() {
   return (
     <section className="w-full bg-white">
-      <SectionContainer className="animate-fade-in-up py-14 lg:py-20">
+      <SectionContainer className="py-14 lg:py-20">
         <div className="bento-stack">
-          <h2 className="text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl">
-            Who we are
-          </h2>
+          <Reveal>
+            <h2 className="text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl">
+              Who we are
+            </h2>
+          </Reveal>
 
-          <div className="card-grid grid grid-cols-1 md:grid-cols-[3fr_2fr]">
-            <div className="group aspect-[4/3] w-full overflow-hidden md:aspect-[5/4]">
+          <RevealStagger className="card-grid grid grid-cols-1 md:grid-cols-[3fr_2fr]">
+            <div className="group reveal-clip-target aspect-[4/3] w-full overflow-hidden md:aspect-[5/4]">
               <img
                 src={about2}
                 alt="Ocevia Lab team at work"
                 className="img-hover-zoom h-full w-full object-cover"
               />
             </div>
-            <div className="group aspect-[3/4] w-full overflow-hidden md:aspect-auto md:min-h-full">
+            <div className="group reveal-clip-target aspect-[3/4] w-full overflow-hidden md:aspect-auto md:min-h-full">
               <img
                 src={about3}
                 alt="Ocevia Lab collaboration"
                 className="img-hover-zoom h-full w-full object-cover"
               />
             </div>
-          </div>
+          </RevealStagger>
 
-          <div className="text-base leading-relaxed text-muted md:text-lg">
+          <Reveal className="text-base leading-relaxed text-muted md:text-lg">
             <p>
               Ocevia Lab is a software engineering studio built by practitioners who care about craft.
               We combine product thinking, modern stacks, and transparent delivery so your team can ship
@@ -47,7 +50,7 @@ export function AboutWhoWeAre() {
               <li>⚙️ Technology that works</li>
               <li>🤝 Partnerships that last</li>
             </ul>
-          </div>
+          </Reveal>
         </div>
       </SectionContainer>
     </section>

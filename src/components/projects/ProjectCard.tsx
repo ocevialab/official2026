@@ -10,13 +10,13 @@ export function ProjectCard({ slug, title, tags, description, images }: ProjectC
       to={`/projects/${slug}`}
       className="card-interactive group flex h-full flex-col overflow-hidden"
     >
-      <div className="project-card-media">
+      <div className="project-card-media reveal-clip-target">
         <ProjectImage
           desktop={images.desktop}
           mobile={images.mobile}
           alt={`${title} project preview`}
           className="h-full w-full"
-          imgClassName="h-full w-full object-cover object-center transition-transform duration-500 ease-out will-change-transform group-hover:scale-105"
+          imgClassName="img-hover-zoom h-full w-full object-cover object-center"
         />
       </div>
 

@@ -1,3 +1,4 @@
+import { Reveal, RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
 
 function StarRating() {
@@ -42,7 +43,7 @@ export function AboutMission() {
     <section className="w-full bg-white">
       <SectionContainer className="pb-8 lg:pb-12">
         <div className="bento-stack">
-          <div className="relative py-14 lg:py-20">
+          <Reveal className="relative py-14 lg:py-20">
             <div className="absolute right-0 top-14 hidden md:block">
               <StarRating />
             </div>
@@ -62,16 +63,16 @@ export function AboutMission() {
             <div className="mt-8 md:hidden">
               <StarRating />
             </div>
-          </div>
+          </Reveal>
 
-          <div className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <RevealStagger className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat) => (
               <div key={stat.value} className="card-interactive px-6 py-10 lg:px-10 lg:py-12">
                 <p className="text-4xl font-bold tracking-tight text-ink md:text-5xl">{stat.value}</p>
                 <p className="mt-4 text-sm leading-relaxed text-muted">{stat.label}</p>
               </div>
             ))}
-          </div>
+          </RevealStagger>
         </div>
       </SectionContainer>
     </section>
