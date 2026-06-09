@@ -24,7 +24,7 @@ export function Layout() {
             </main>
           ) : (
             <div className="section-stack flex-1">
-              <main className="w-full bg-white pt-[var(--header-height)]">
+              <main className="main-inner w-full bg-white">
                 <AnimatedOutlet />
               </main>
               <Footer />

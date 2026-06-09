@@ -14,7 +14,7 @@ export function ProjectsPage() {
       <section className="w-full bg-white">
         <SectionContainer className="pb-8 lg:pb-12">
           <div className="bento-stack">
-            <div className="pt-14 lg:pt-20">
+            <div>
               <ProjectFilters active={activeFilter} onChange={setActiveFilter} />
             </div>
 
