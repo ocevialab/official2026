@@ -6,8 +6,8 @@ import { SectionContainer } from '../ui/SectionContainer'
 
 const aboutImages = [
   {
-    src: about1,
-    alt: 'Ocevia Lab studio workspace',
+    src: about3,
+    alt: 'Ocevia Lab collaboration session',
     className: 'about-hero-feature',
   },
   {
@@ -16,8 +16,8 @@ const aboutImages = [
     className: '',
   },
   {
-    src: about3,
-    alt: 'Ocevia Lab collaboration session',
+    src: about1,
+    alt: 'Ocevia Lab studio workspace',
     className: '',
   },
 ] as const

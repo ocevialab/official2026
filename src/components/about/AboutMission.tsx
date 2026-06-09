@@ -43,8 +43,8 @@ export function AboutMission() {
     <section className="w-full bg-white">
       <SectionContainer className="pb-8 lg:pb-12">
         <div className="bento-stack">
-          <Reveal className="relative py-14 lg:py-20">
-            <div className="absolute right-0 top-14 hidden md:block">
+          <Reveal className="relative pb-10 pt-0 lg:pb-16 lg:pt-0">
+            <div className="absolute right-0 top-0 hidden md:block">
               <StarRating />
             </div>
 

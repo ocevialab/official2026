@@ -4,7 +4,7 @@ import gsap from 'gsap'
 import aboutDiscover from '../../assets/about 1.jpg'
 import aboutDesign from '../../assets/about 2.jpeg'
 import aboutBuild from '../../assets/about 3.jpeg'
-import aboutLaunch from '../../assets/about 4.jpg'
+import aboutLaunch from '../../assets/about4.jpg'
 import {
   MOTION,
   prefersReducedMotion,

@@ -15,7 +15,7 @@ const statements = [
 export function AboutVisionMission() {
   return (
     <section className="w-full bg-white">
-      <SectionContainer className="py-14 lg:py-20">
+      <SectionContainer className="pb-0 pt-0">
         <RevealSplit className="card-grid grid grid-cols-1 md:grid-cols-2">
           {statements.map((item) => (
             <article key={item.title} className="card-interactive p-8 lg:p-12">

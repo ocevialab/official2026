@@ -105,7 +105,7 @@ export function Header() {
     <header
       aria-hidden={!isVisible}
       className={`fixed z-50 transition-all duration-300 ease-in-out ${
-        isHome ? 'inset-x-0 top-0' : 'inset-x-4 top-4 sm:inset-x-5 sm:top-5 lg:inset-x-6 lg:top-6'
+        isHome ? 'inset-x-0 top-0' : 'site-header-inset'
       } ${
         isVisible
           ? 'visible translate-y-0 opacity-100'

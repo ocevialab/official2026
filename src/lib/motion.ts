@@ -44,17 +44,33 @@ export function revealScrollTrigger(trigger: Element, start?: string) {
   }
 }
 
-/** If the trigger line was already passed (common for footers), play the reveal */
+/** Recover reveals when layout shifts or the trigger line was already passed on load */
 export function playRevealIfAlreadyInView(
   trigger: Element,
   timeline: gsap.core.Timeline,
 ) {
-  requestAnimationFrame(() => {
+  const sync = () => {
     ScrollTrigger.refresh()
-    const rect = trigger.getBoundingClientRect()
-    const enteredView = rect.top < window.innerHeight - 48 && rect.bottom > 0
-    if (enteredView && timeline.progress() === 0) {
-      timeline.play(0)
+
+    const st = timeline.scrollTrigger
+    if (st && (st.progress >= 1 || st.isActive)) {
+      timeline.progress(1)
+      return
     }
-  })
+
+    const rect = trigger.getBoundingClientRect()
+    if (rect.width === 0 && rect.height === 0) return
+
+    const revealLine = window.innerHeight * 0.72
+    const enteredView = rect.top < revealLine && rect.bottom > 48
+
+    if (enteredView) {
+      timeline.progress(1)
+    }
+  }
+
+  requestAnimationFrame(sync)
+  requestAnimationFrame(() => requestAnimationFrame(sync))
+  window.setTimeout(sync, 120)
+  window.setTimeout(sync, 450)
 }

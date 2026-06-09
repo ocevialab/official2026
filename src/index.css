@@ -38,6 +38,7 @@
   --color-cobalt-tint: #eef1f8;
   --color-navy-tint: #eef1f8;
   --color-step-highlight: #b8c9ef;
+  --layout-gutter: 1rem;
   --spacing-section-x: 1rem;
   --spacing-section-gap: 1.5rem;
   --spacing-bento-gap: 1rem;
@@ -53,6 +54,7 @@
 
 @media (min-width: 640px) {
   :root {
+    --layout-gutter: 1.25rem;
     --spacing-section-x: 1.25rem;
     --spacing-section-gap: 2rem;
     --spacing-bento-gap: 1.25rem;
@@ -63,6 +65,7 @@
 @media (min-width: 1024px) {
   :root {
     --header-height: 4.5rem;
+    --layout-gutter: 1.5rem;
     --spacing-section-x: 1.5rem;
     --spacing-section-gap: 2.5rem;
     --spacing-bento-gap: 1.5rem;
@@ -77,8 +80,19 @@
   }
 }
 
+.layout-gutter {
+  padding: var(--layout-gutter);
+}
+
 .section-x {
   padding-inline: var(--spacing-section-x);
+}
+
+/* Fixed header — align with site-frame (layout gutter + section-x) */
+.site-header-inset {
+  top: var(--layout-gutter);
+  right: calc(var(--layout-gutter) + var(--spacing-section-x));
+  left: calc(var(--layout-gutter) + var(--spacing-section-x));
 }
 
 .main-inner {
