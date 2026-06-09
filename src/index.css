@@ -91,6 +91,17 @@
   background-color: var(--color-white);
 }
 
+.services-page-grid.card-grid {
+  gap: 1px;
+  background-color: var(--color-grid-border);
+  border: 1px solid var(--color-grid-border);
+}
+
+.services-page-grid.card-grid > * {
+  background-color: var(--color-white);
+  box-shadow: inset 0 0 0 1px var(--color-grid-border);
+}
+
 .footer-grid.card-grid {
   padding: 0;
   border: 1px solid var(--color-grid-border);

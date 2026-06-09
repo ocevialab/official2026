@@ -1,29 +1,7 @@
 import { Link } from 'react-router-dom'
+import { homeServices } from '../../data/services'
 import { SectionContainer } from '../ui/SectionContainer'
 import { SectionHeader } from '../ui/SectionHeader'
-
-const services = [
-  {
-    number: '01',
-    title: 'Web design & Development',
-    to: '/services',
-  },
-  {
-    number: '02',
-    title: 'Mobile Application design & Development',
-    to: '/services',
-  },
-  {
-    number: '03',
-    title: 'Management Syetem Development',
-    to: '/services',
-  },
-  {
-    number: '04',
-    title: 'IT & Digital Solutions',
-    to: '/services',
-  },
-]
 
 function ArrowIcon({ className = '' }: { className?: string }) {
   return (
@@ -93,7 +71,7 @@ export function ServicesSection() {
           />
 
           <div className="service-card-grid grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-            {services.map((service) => (
+            {homeServices.map((service) => (
               <ServiceCard key={service.number} {...service} />
             ))}
           </div>
