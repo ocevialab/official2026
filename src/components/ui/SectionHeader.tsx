@@ -12,7 +12,7 @@ type SectionHeaderProps = {
 }
 
 const defaultTitleClass =
-  'text-3xl font-bold tracking-tight text-ink md:text-4xl lg:text-5xl'
+  'text-3xl font-bold uppercase leading-tight tracking-tight text-ink md:text-4xl lg:text-5xl'
 
 export function SectionHeader({
   title,
@@ -24,8 +24,8 @@ export function SectionHeader({
   titleClassName = defaultTitleClass,
 }: SectionHeaderProps) {
   return (
-    <div className="animate-fade-in-up grid w-full gap-8 py-12 md:grid-cols-2 md:items-start md:gap-12 lg:py-16">
-      <div className="flex flex-col gap-6">
+    <div className="card-grid animate-fade-in-up grid w-full grid-cols-1 md:grid-cols-2">
+      <div className="flex flex-col gap-6 p-8 lg:p-12">
         <Heading className={titleClassName}>{title}</Heading>
         {buttonLabel && (
           <div className="w-fit">
@@ -35,7 +35,7 @@ export function SectionHeader({
           </div>
         )}
       </div>
-      <p className="max-w-xl text-base leading-relaxed text-muted md:pt-1 md:text-lg">
+      <p className="p-8 text-base leading-relaxed text-muted md:text-lg lg:p-12">
         {description}
       </p>
     </div>

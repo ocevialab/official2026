@@ -11,7 +11,7 @@ function SocialButton({ label, href, icon }: SocialLink) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="pill-interactive flex h-9 w-9 items-center justify-center rounded-full border border-grid-border/30 bg-cobalt-tint text-ink hover:border-grid-border hover:text-cobalt"
+      className="pill-interactive flex h-9 w-9 items-center justify-center border border-grid-border bg-white text-ink"
     >
       {icon}
     </a>

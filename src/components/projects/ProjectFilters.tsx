@@ -16,10 +16,10 @@ export function ProjectFilters({ active, onChange }: ProjectFiltersProps) {
             key={filter}
             type="button"
             onClick={() => onChange(filter)}
-            className={`pill-interactive rounded-full border px-4 py-2 text-sm font-medium ${
+            className={`pill-interactive border px-4 py-2 text-xs font-bold uppercase tracking-widest ${
               isActive
-                ? 'border-cobalt bg-cobalt text-white'
-                : 'border-grid-border/30 bg-cobalt-tint text-ink hover:border-grid-border hover:bg-white'
+                ? 'border-grid-border bg-accent text-white'
+                : 'border-grid-border bg-white text-ink'
             }`}
           >
             {filter}

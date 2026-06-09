@@ -8,14 +8,30 @@ export function Layout() {
   const isHome = pathname === '/'
 
   return (
-    <div className="flex min-h-svh w-full flex-col bg-white text-ink">
-      <Header />
-      <main
-        className={`w-full flex-1 bg-white ${isHome ? '' : 'pt-[var(--header-height)]'}`}
-      >
-        <AnimatedOutlet />
-      </main>
-      <Footer />
+    <div className={`min-h-svh bg-white text-ink ${isHome ? '' : 'p-4 sm:p-5 lg:p-6'}`}>
+      <div className={isHome ? 'flex min-h-svh flex-col' : 'section-x'}>
+        <div
+          className={`flex flex-col ${
+            isHome
+              ? 'min-h-svh flex-1'
+              : 'site-frame min-h-[calc(100svh-2rem)] bg-white sm:min-h-[calc(100svh-2.5rem)] lg:min-h-[calc(100svh-3rem)]'
+          }`}
+        >
+          <Header />
+          {isHome ? (
+            <main className="w-full flex-1">
+              <AnimatedOutlet />
+            </main>
+          ) : (
+            <div className="section-stack flex-1">
+              <main className="w-full bg-white pt-[var(--header-height)]">
+                <AnimatedOutlet />
+              </main>
+              <Footer />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }

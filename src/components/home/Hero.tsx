@@ -83,7 +83,7 @@ export function Hero() {
   const revealClass = isReady ? 'animate-fade-in-up' : 'opacity-0'
 
   return (
-    <section className="relative flex min-h-dvh w-full items-center justify-center overflow-hidden border-b border-grid-border bg-slate-900 pt-[var(--header-height)]">
+    <section className="relative flex min-h-dvh w-full items-center justify-center overflow-hidden bg-rich-black pt-[var(--header-height)]">
       <div className="absolute inset-0" aria-hidden>
         {animationData && (
           <HeroLottie
@@ -96,9 +96,9 @@ export function Hero() {
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_85%_65%_at_50%_42%,rgb(0_0_0_/_0.55),transparent_72%)]" />
 
-      <div className="section-x relative z-10 flex w-full flex-col items-center py-12 text-center sm:py-16 lg:py-20">
+      <div className="relative z-10 flex w-full flex-col items-center px-6 py-12 text-center sm:px-8 sm:py-16 lg:px-16 lg:py-20">
         <h1
-          className={`hero-text-shadow mx-auto max-w-4xl text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-6xl ${revealClass}`}
+          className={`hero-text-shadow mx-auto max-w-4xl text-3xl font-bold uppercase tracking-tight text-white sm:text-4xl md:text-6xl ${revealClass}`}
         >
           Where Innovation Meets Execution
         </h1>
@@ -111,15 +111,15 @@ export function Hero() {
         <div
           className={`stagger-2 mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4 ${revealClass}`}
         >
-          <Button to="/contact" className="w-full shadow-lg shadow-black/30 sm:w-auto">
+          <Button to="/contact" className="w-full sm:w-auto">
             Request a Proposal
           </Button>
           <Button
             href={WHATSAPP_URL}
             variant="outline"
-            className="w-full border-white bg-white text-cobalt shadow-lg shadow-black/20 hover:bg-white/90 sm:w-auto"
+            className="w-full border-white bg-white text-ink hover:bg-accent hover:text-white sm:w-auto"
           >
-            WhatsApp US
+            WhatsApp Us
           </Button>
         </div>
       </div>

@@ -22,10 +22,10 @@ export function ProjectDetailPage() {
 
   if (!project) {
     return (
-      <section className="w-full border-b border-grid-border bg-white">
+      <section className="w-full bg-white">
         <SectionContainer className="py-20 text-center">
-          <h1 className="text-2xl font-bold text-ink">Project not found</h1>
-          <Link to="/projects" className="mt-6 inline-block text-cobalt hover:underline">
+          <h1 className="text-2xl font-bold uppercase text-ink">Project not found</h1>
+          <Link to="/projects" className="mt-6 inline-block font-bold uppercase tracking-widest hover:underline">
             ← Back to projects
           </Link>
         </SectionContainer>
@@ -34,16 +34,16 @@ export function ProjectDetailPage() {
   }
 
   return (
-    <>
-      <section className="w-full border-b border-grid-border bg-white">
+    <div className="section-stack">
+      <section className="w-full bg-white">
         <SectionContainer className="pt-8 pb-8 lg:pt-12">
           <Link
             to="/projects"
-            className="mb-4 inline-flex text-sm font-medium text-muted transition hover:text-cobalt"
+            className="mb-4 inline-flex text-xs font-bold uppercase tracking-widest text-muted transition hover:text-ink hover:underline"
           >
             ← Back to projects
           </Link>
-          <div className="group aspect-[21/9] w-full overflow-hidden rounded-xl">
+          <div className="group aspect-[21/9] w-full overflow-hidden border border-grid-border">
             <img
               src={project.images.detail}
               alt={`${project.title} project hero`}
@@ -53,12 +53,12 @@ export function ProjectDetailPage() {
         </SectionContainer>
       </section>
 
-      <section className="w-full border-b border-grid-border bg-white">
+      <section className="w-full bg-white">
         <SectionContainer className="py-14 lg:py-20">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
-            <div>
-              <h1 className="text-3xl font-bold lowercase text-ink md:text-4xl lg:text-5xl">
-                {project.title.toLowerCase()}
+          <div className="card-grid grid grid-cols-1 lg:grid-cols-[1.5fr_1fr]">
+            <div className="p-8 lg:p-12">
+              <h1 className="text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl lg:text-5xl">
+                {project.title}
               </h1>
               <div className="mt-8 space-y-6 text-base leading-relaxed text-muted md:text-lg">
                 {project.longDescription.map((paragraph) => (
@@ -70,7 +70,7 @@ export function ProjectDetailPage() {
                   href={project.previewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-10 inline-flex items-center gap-2 text-base font-medium text-ink transition hover:text-cobalt"
+                  className="mt-10 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-ink transition hover:bg-accent"
                 >
                   View Preview
                   <span aria-hidden="true">→</span>
@@ -78,26 +78,26 @@ export function ProjectDetailPage() {
               )}
             </div>
 
-            <aside className="card-interactive border-t border-grid-border bg-cobalt-tint pt-10 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-12 lg:pr-4">
-              <h2 className="text-lg font-semibold text-ink">Project Info –</h2>
+            <aside className="border-t border-grid-border p-8 lg:border-t-0 lg:p-12">
+              <h2 className="text-sm font-bold uppercase tracking-widest text-ink">Project Info</h2>
               <dl className="mt-8 space-y-8">
                 <div>
-                  <dt className="text-sm font-semibold text-cobalt">Category:</dt>
-                  <dd className="mt-2 text-base text-ink">{project.info.category}</dd>
+                  <dt className="grid-label">Category</dt>
+                  <dd className="mt-3 text-base text-ink">{project.info.category}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-semibold text-cobalt">Location:</dt>
-                  <dd className="mt-2 text-base text-ink">{project.info.location}</dd>
+                  <dt className="grid-label">Location</dt>
+                  <dd className="mt-3 text-base text-ink">{project.info.location}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-semibold text-cobalt">Dated:</dt>
-                  <dd className="mt-2 text-base text-ink">{project.info.dated}</dd>
+                  <dt className="grid-label">Dated</dt>
+                  <dd className="mt-3 text-base text-ink">{project.info.dated}</dd>
                 </div>
               </dl>
             </aside>
           </div>
         </SectionContainer>
       </section>
-    </>
+    </div>
   )
 }

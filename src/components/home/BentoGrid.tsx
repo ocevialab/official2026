@@ -30,31 +30,33 @@ function BentoCard({ project, className = '' }: BentoCardProps) {
   return (
     <Link
       to={`/projects/${slug}`}
-      className={`card-interactive group relative flex min-h-[calc(100dvh-var(--header-height))] flex-col overflow-hidden bg-cobalt-tint text-ink md:h-full md:min-h-0 ${className}`}
+      className={`card-interactive card-media group relative flex min-h-[calc(100dvh-var(--header-height))] flex-col overflow-hidden md:h-full md:min-h-0 ${className}`}
     >
       <ProjectImage
         desktop={images.desktop}
         mobile={images.mobile}
         alt={`${title} project preview`}
         className="absolute inset-0 h-full w-full"
-        imgClassName="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-      />
-      <div
-        className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/25 to-ink/10"
-        aria-hidden="true"
+        imgClassName="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
       />
 
-      <div className="relative z-10 flex h-full min-h-0 flex-col justify-between p-6 lg:p-8">
-        <div className="flex items-start justify-between gap-4">
-          <span className="text-xs font-semibold uppercase tracking-widest text-white/90">
-            {label}
-          </span>
-          <span className="text-white">
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2/5 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+        aria-hidden
+      />
+
+      <div className="relative z-20 mt-auto p-5 lg:p-6">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <span className="grid-label">{label}</span>
+            <h3 className="hero-text-shadow mt-3 text-xl font-bold uppercase tracking-tight text-white md:text-2xl lg:text-3xl">
+              {title}
+            </h3>
+          </div>
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/40 bg-accent text-white transition group-hover:bg-brand-navy group-hover:text-white">
             <ArrowIcon />
           </span>
         </div>
-
-        <h3 className="mt-auto text-2xl font-bold text-white md:text-3xl lg:text-4xl">{title}</h3>
       </div>
     </Link>
   )
@@ -64,21 +66,23 @@ export function BentoGrid() {
   const { tall, feature, compact } = homeBentoProjects
 
   return (
-    <section className="animate-fade-in-up stagger-1 w-full border-b border-grid-border bg-white">
-      <SectionContainer className="pb-8 lg:pb-12">
-        <SectionHeader
-          title="Our Projects"
-          description="Explore selected work across web, mobile, and brand experiences. Each tile opens a case study from our client portfolio."
-          buttonLabel="See all projects"
-          buttonTo="/projects"
-        />
+    <section className="animate-fade-in-up stagger-1 w-full bg-white">
+      <SectionContainer>
+        <div className="bento-stack">
+          <SectionHeader
+            title="Our Projects"
+            description="Explore selected work across web, mobile, and brand experiences. Each tile opens a case study from our client portfolio."
+            buttonLabel="See all projects"
+            buttonTo="/projects"
+          />
 
-        <div className="card-grid bento-grid grid w-full grid-cols-1 md:grid-cols-2 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-2">
-          <BentoCard project={tall} className="md:col-span-1 md:row-span-2" />
-          <BentoCard project={feature} className="lg:col-span-2" />
-          {compact.map((project) => (
-            <BentoCard key={project.slug} project={project} />
-          ))}
+          <div className="card-grid bento-grid grid w-full grid-cols-1 md:grid-cols-2 md:grid-rows-2 lg:grid-cols-3 lg:grid-rows-2">
+            <BentoCard project={tall} className="md:col-span-1 md:row-span-2" />
+            <BentoCard project={feature} className="lg:col-span-2" />
+            {compact.map((project) => (
+              <BentoCard key={project.slug} project={project} />
+            ))}
+          </div>
         </div>
       </SectionContainer>
     </section>

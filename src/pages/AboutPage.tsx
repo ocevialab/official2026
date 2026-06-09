@@ -6,12 +6,12 @@ import { AboutWhoWeAre } from '../components/about/AboutWhoWeAre'
 
 export function AboutPage() {
   return (
-    <>
+    <div className="section-stack">
       <AboutHero />
       <AboutWhoWeAre />
       <AboutVisionMission />
       <AboutMission />
       <AboutApart />
-    </>
+    </div>
   )
 }

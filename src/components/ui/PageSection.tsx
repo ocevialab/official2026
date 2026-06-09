@@ -19,16 +19,18 @@ export function PageSection({
   children,
 }: PageSectionProps) {
   return (
-    <section className="animate-fade-in-up w-full border-b border-grid-border bg-white">
-      <SectionContainer className="pb-8 lg:pb-12">
-        <SectionHeader
-          title={title}
-          description={description}
-          buttonLabel={buttonLabel}
-          buttonTo={buttonTo}
-          buttonHref={buttonHref}
-        />
-        {children}
+    <section className="animate-fade-in-up w-full bg-white">
+      <SectionContainer className="pb-0">
+        <div className="bento-stack">
+          <SectionHeader
+            title={title}
+            description={description}
+            buttonLabel={buttonLabel}
+            buttonTo={buttonTo}
+            buttonHref={buttonHref}
+          />
+          {children}
+        </div>
       </SectionContainer>
     </section>
   )

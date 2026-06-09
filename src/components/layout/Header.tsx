@@ -7,8 +7,8 @@ const navItems = [
   { label: 'Home', path: '/' },
   { label: 'Services', path: '/services' },
   { label: 'Projects', path: '/projects' },
-  { label: 'About Us', path: '/about' },
-  { label: 'Contact Us', path: '/contact' },
+  { label: 'About', path: '/about' },
+  { label: 'Contact', path: '/contact' },
 ]
 
 function MenuIcon({ open, light }: { open: boolean; light?: boolean }) {
@@ -91,7 +91,7 @@ export function Header() {
   }, [menuOpen])
 
   useEffect(() => {
-    const rootBg = isHome && !scrolled ? '#0f172a' : '#ffffff'
+    const rootBg = isHome && !scrolled ? '#00072d' : '#ffffff'
     document.documentElement.style.backgroundColor = rootBg
     document.body.style.backgroundColor = rootBg
 
@@ -104,36 +104,43 @@ export function Header() {
   return (
     <header
       aria-hidden={!isVisible}
-      className={`fixed inset-x-0 top-0 z-50 w-full transition-all duration-300 ease-in-out ${
+      className={`fixed z-50 transition-all duration-300 ease-in-out ${
+        isHome ? 'inset-x-0 top-0' : 'inset-x-4 top-4 sm:inset-x-5 sm:top-5 lg:inset-x-6 lg:top-6'
+      } ${
         isVisible
           ? 'visible translate-y-0 opacity-100'
           : 'pointer-events-none invisible -translate-y-full opacity-0'
       } ${
         isTransparent
           ? 'border-0 bg-transparent'
-          : 'border-b border-grid-border bg-white/90 backdrop-blur-md'
+          : 'border border-grid-border bg-white'
       }`}
     >
-      <div className="section-x grid h-[var(--header-height)] w-full grid-cols-[1fr_auto_1fr] items-center gap-4">
-        <Link to="/" className="flex shrink-0 items-center justify-self-start transition hover:opacity-80">
+      <div className="grid h-[var(--header-height)] w-full grid-cols-[1fr_auto_1fr] items-center">
+        <Link
+          to="/"
+          className={`flex shrink-0 items-center px-4 transition sm:px-6 ${
+            isTransparent ? 'hover:opacity-80' : 'border-r border-grid-border hover:bg-accent hover:text-white'
+          }`}
+        >
           <Logo
             variant={isTransparent ? 'default' : 'colored'}
-            className="h-10 w-auto sm:h-12 md:h-14"
+            className="h-8 w-auto sm:h-10"
           />
         </Link>
 
-        <nav className="hidden items-center justify-center gap-8 md:flex">
-          {navItems.slice(0, -1).map((item) => (
+        <nav className="hidden items-stretch justify-center md:flex">
+          {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
                 isTransparent
-                  ? `text-sm font-medium text-white transition hover:text-white/80 hover:underline hover:underline-offset-4 ${
+                  ? `flex items-center px-5 text-xs font-bold uppercase tracking-widest text-white transition hover:text-white/80 ${
                       isActive ? 'underline underline-offset-4' : ''
                     }`
-                  : `text-sm font-medium text-ink transition hover:text-cobalt hover:underline hover:underline-offset-4 ${
-                      isActive ? 'text-cobalt underline underline-offset-4' : ''
+                  : `flex items-center border-r border-grid-border px-5 text-xs font-bold uppercase tracking-widest transition last:border-r-0 hover:bg-accent hover:text-white ${
+                      isActive ? 'bg-accent text-white' : 'text-ink'
                     }`
               }
             >
@@ -142,17 +149,22 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center justify-self-end gap-4">
-          <div className="hidden md:block">
-            <Button to="/contact">Contact Us</Button>
+        <div className="flex items-center justify-end gap-0 pr-4 sm:pr-5">
+          <div className="hidden h-full md:flex">
+            <Button
+              to="/contact"
+              className={`h-full min-h-0 rounded-none px-6 ${
+                isTransparent ? 'border-white bg-accent text-white' : 'border-0 border-l border-grid-border'
+              }`}
+            >
+              Contact
+            </Button>
           </div>
 
           <button
             type="button"
-            className={`flex h-10 w-10 items-center justify-center rounded-lg border transition md:hidden ${
-              isTransparent
-                ? 'border-white/40 hover:border-white/70'
-                : 'border-grid-border/30 hover:border-grid-border'
+            className={`flex h-[var(--header-height)] w-14 items-center justify-center transition md:hidden ${
+              isTransparent ? 'hover:opacity-80' : 'border-l border-grid-border hover:bg-accent hover:text-white'
             }`}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
@@ -165,14 +177,14 @@ export function Header() {
 
       {menuOpen && (
         <div
-          className="fixed inset-0 top-[var(--header-height)] z-40 bg-black/20 md:hidden"
+          className="fixed inset-0 top-[var(--header-height)] z-40 bg-black/30 md:hidden"
           aria-hidden="true"
           onClick={() => setMenuOpen(false)}
         />
       )}
 
       <nav
-        className={`section-x fixed inset-x-0 top-[var(--header-height)] z-50 flex flex-col gap-1 border-b border-grid-border bg-white py-4 shadow-lg transition-all duration-300 md:hidden ${
+        className={`absolute inset-x-0 top-full z-50 flex flex-col border border-t-0 border-grid-border bg-white transition-all duration-300 md:hidden ${
           menuOpen
             ? 'visible translate-y-0 opacity-100'
             : 'pointer-events-none invisible -translate-y-2 opacity-0'
@@ -184,19 +196,14 @@ export function Header() {
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
-              `rounded-lg px-4 py-3 text-base font-medium transition ${
-                isActive ? 'bg-cobalt-tint text-cobalt' : 'text-ink hover:bg-cobalt-tint/60'
+              `border-b border-grid-border px-6 py-4 text-sm font-bold uppercase tracking-widest transition last:border-b-0 hover:bg-accent hover:text-white ${
+                isActive ? 'bg-accent text-white' : 'text-ink'
               }`
             }
           >
             {item.label}
           </NavLink>
         ))}
-        <div className="mt-2 px-4 pt-2">
-          <Button to="/contact" className="w-full">
-            Contact Us
-          </Button>
-        </div>
       </nav>
     </header>
   )

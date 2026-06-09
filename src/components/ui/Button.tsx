@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 
 const buttonBaseClassName =
-  'btn-interactive inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold'
+  'btn-interactive inline-flex min-h-11 items-center justify-center gap-2 border border-grid-border px-6 py-3 text-xs font-bold uppercase tracking-widest'
 
 const buttonVariants = {
-  primary: 'bg-cobalt text-white hover:bg-navy',
-  outline: 'border border-cobalt bg-transparent text-cobalt hover:bg-cobalt-tint',
+  primary: 'bg-cobalt text-white hover:bg-brand-navy',
+  outline: 'bg-white text-ink hover:bg-accent hover:text-white',
+  dark: 'bg-ink text-white hover:bg-brand-blue',
 } as const
 
 export const buttonClassName = `${buttonBaseClassName} ${buttonVariants.primary}`

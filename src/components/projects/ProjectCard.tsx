@@ -8,7 +8,7 @@ export function ProjectCard({ slug, title, tags, description, images }: ProjectC
   return (
     <Link
       to={`/projects/${slug}`}
-      className="card-interactive group flex h-full flex-col overflow-hidden bg-cobalt-tint"
+      className="card-interactive group flex h-full flex-col overflow-hidden"
     >
       <div className="project-card-media">
         <ProjectImage
@@ -21,14 +21,11 @@ export function ProjectCard({ slug, title, tags, description, images }: ProjectC
       </div>
 
       <div className="flex flex-1 flex-col p-6 lg:p-8">
-        <h2 className="text-xl font-bold uppercase tracking-wide text-ink md:text-2xl">{title}</h2>
+        <h2 className="text-xl font-bold uppercase tracking-tight text-ink md:text-2xl">{title}</h2>
 
         <div className="mt-4 flex flex-wrap gap-2">
           {tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-grid-border/25 bg-white/70 px-3 py-1 text-xs font-medium text-ink transition group-hover:border-grid-border"
-            >
+            <span key={tag} className="grid-label">
               {tag}
             </span>
           ))}

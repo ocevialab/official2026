@@ -35,17 +35,17 @@ const services = [
 
 export function ServicesPage() {
   return (
-    <>
+    <div className="section-stack">
       <PageSection
         title="Our Services"
         description="Full-stack software engineering for teams at every stage. We combine product thinking with deep technical execution so you ship faster without sacrificing quality."
         buttonLabel="Request a Proposal"
         buttonTo="/contact"
       >
-        <div className="card-grid grid w-full grid-cols-1 md:grid-cols-2">
+        <div className="service-card-grid grid w-full grid-cols-1 md:grid-cols-2">
           {services.map((service) => (
-            <article key={service.name} className="card-interactive bg-cobalt-tint p-8 text-ink lg:p-10">
-              <h3 className="text-xl font-bold">{service.name}</h3>
+            <article key={service.name} className="card-interactive p-8 lg:p-10">
+              <h3 className="text-xl font-bold uppercase tracking-tight text-ink">{service.name}</h3>
               <p className="mt-4 text-sm leading-relaxed text-muted">{service.detail}</p>
             </article>
           ))}
@@ -58,23 +58,20 @@ export function ServicesPage() {
         buttonLabel="WhatsApp US"
         buttonHref="https://wa.me/1234567890"
       >
-        <ol className="w-full divide-y divide-grid-border bg-white">
+        <ol className="card-grid grid w-full grid-cols-1">
           {[
             'Align on goals, users, and success metrics',
             'Design architecture and delivery roadmap',
             'Build in sprints with continuous feedback',
             'Launch, monitor, and iterate with your team',
           ].map((step, i) => (
-            <li
-              key={step}
-              className="flex gap-6 bg-white px-2 py-8 transition hover:translate-x-1 hover:bg-cobalt-tint lg:px-4"
-            >
-              <span className="text-3xl font-bold text-brand-blue">{String(i + 1).padStart(2, '0')}</span>
+            <li key={step} className="card-interactive flex gap-6 p-8 lg:p-10">
+              <span className="text-3xl font-bold text-ink">{String(i + 1).padStart(2, '0')}</span>
               <p className="pt-2 text-base text-ink">{step}</p>
             </li>
           ))}
         </ol>
       </PageSection>
-    </>
+    </div>
   )
 }
