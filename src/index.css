@@ -109,6 +109,97 @@
   box-shadow: inset 0 0 0 1px var(--color-grid-border);
 }
 
+/* One viewport: layout padding + fixed header offset (matches site-frame chrome) */
+.about-hero-section {
+  height: calc(100svh - 2rem - var(--main-content-offset));
+  max-height: calc(100svh - 2rem - var(--main-content-offset));
+}
+
+.about-hero-inner {
+  display: flex;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  padding-block: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .about-hero-section {
+    height: calc(100svh - 2.5rem - var(--main-content-offset));
+    max-height: calc(100svh - 2.5rem - var(--main-content-offset));
+  }
+
+  .about-hero-inner {
+    padding-block: 0.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-hero-section {
+    height: calc(100svh - 3rem - var(--main-content-offset));
+    max-height: calc(100svh - 3rem - var(--main-content-offset));
+  }
+
+  .about-hero-inner {
+    padding-block: 1rem;
+  }
+}
+
+.about-hero-stack {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 1024px) {
+  .about-hero-stack {
+    gap: 1rem;
+  }
+}
+
+.about-hero-grid.card-grid {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .about-hero-grid.card-grid {
+    grid-template-columns: 1.35fr 1fr;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.about-hero-grid.card-grid > * {
+  position: relative;
+  min-height: 0;
+  padding: 0;
+  background-color: var(--color-rich-black);
+}
+
+.about-hero-grid.card-grid img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.about-hero-grid .about-hero-feature {
+  grid-row: span 1;
+}
+
+@media (min-width: 768px) {
+  .about-hero-grid .about-hero-feature {
+    grid-row: span 2;
+  }
+}
+
 .how-we-work-glow::before {
   content: '';
   position: absolute;
