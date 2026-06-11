@@ -8,7 +8,7 @@ export function ProjectCard({ slug, title, tags, description, images }: ProjectC
   return (
     <Link
       to={`/projects/${slug}`}
-      className="card-interactive group flex h-full flex-col overflow-hidden"
+      className="premium-card card-interactive group flex h-full flex-col overflow-hidden"
     >
       <div className="project-card-media reveal-clip-target">
         <ProjectImage

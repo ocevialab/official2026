@@ -125,7 +125,7 @@ export function Hero() {
       const bg = bgRef.current
       if (!headline || !sub || !cta || !bg) return
 
-      const split = new SplitType(headline, { types: 'chars' })
+      const split = new SplitType(headline, { types: 'words,chars' })
       const chars = headline.querySelectorAll('.char')
 
       gsap.set([sub, cta], { autoAlpha: 0, yPercent: 30 })
@@ -285,7 +285,7 @@ export function Hero() {
       <div className="relative z-10 flex w-full flex-col items-center px-6 py-12 text-center sm:px-8 sm:py-16 lg:px-16 lg:py-20">
         <h1
           ref={headlineRef}
-          className={`hero-text-shadow mx-auto max-w-4xl text-3xl font-bold uppercase tracking-tight text-white sm:text-4xl md:text-6xl ${
+          className={`hero-headline hero-text-shadow mx-auto max-w-4xl text-3xl font-bold uppercase tracking-tight text-white sm:text-4xl md:text-6xl ${
             hiddenUntilReady ? 'opacity-0' : ''
           }`}
         >

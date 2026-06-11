@@ -475,6 +475,16 @@
     0 1px 4px rgb(0 0 0 / 0.9);
 }
 
+/* Keep whole words on one line during char-split hero reveal */
+.hero-headline .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hero-headline .char {
+  display: inline-block;
+}
+
 .card-interactive {
   transition:
     background-color var(--motion-duration-fast) ease,
@@ -612,8 +622,10 @@
   .group:hover .micro-arrow,
   .btn-interactive:hover,
   .btn-interactive:active,
-  .pill-interactive:active {
+  .pill-interactive:active,
+  .premium-card:hover {
     transform: none;
+    box-shadow: none;
   }
 }
 
@@ -651,10 +663,15 @@ body {
   display: block;
 }
 
-.service-card,
-.card-interactive {
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+.premium-card {
+  transition:
+    transform var(--motion-duration-base) var(--motion-ease),
+    box-shadow var(--motion-duration-base) var(--motion-ease);
+}
+
+.premium-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgb(0 7 45 / 0.1);
 }
 
 .hero-particles {

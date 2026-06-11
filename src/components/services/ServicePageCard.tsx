@@ -14,7 +14,7 @@ export function ServicePageCard({
   imageAlt,
 }: ServicePageCardProps) {
   return (
-    <article className="service-card service-page-card group flex h-full flex-col overflow-hidden bg-white">
+    <article className="premium-card service-page-card group flex h-full flex-col overflow-hidden bg-white">
       <div className="reveal-clip-target relative aspect-[16/10] overflow-hidden border-b border-grid-border">
         <img
           src={image}

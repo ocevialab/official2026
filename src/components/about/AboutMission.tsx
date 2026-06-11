@@ -1,7 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import { bindCardTilt } from '../../lib/cardTilt'
 import { prefersReducedMotion, registerGsapPlugins, revealScrollTrigger } from '../../lib/motion'
 import { Reveal, RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
@@ -85,16 +84,6 @@ export function AboutMission() {
     { scope: statsRef },
   )
 
-  useEffect(() => {
-    const root = statsRef.current
-    if (!root) return
-
-    const cards = root.querySelectorAll<HTMLElement>('.card-interactive')
-    const cleanups = Array.from(cards).map((card) => bindCardTilt(card))
-
-    return () => cleanups.forEach((fn) => fn())
-  }, [])
-
   return (
     <section className="w-full bg-white">
       <SectionContainer className="pb-8 lg:pb-12">
@@ -124,7 +113,7 @@ export function AboutMission() {
           <div ref={statsRef}>
             <RevealStagger className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
               {stats.map((stat) => (
-                <div key={stat.suffix + stat.value} className="card-interactive px-6 py-10 lg:px-10 lg:py-12">
+                <div key={stat.suffix + stat.value} className="premium-card card-interactive px-6 py-10 lg:px-10 lg:py-12">
                   <p
                     className="stat-number text-4xl font-bold tracking-tight text-ink md:text-5xl"
                     data-target={stat.value}
