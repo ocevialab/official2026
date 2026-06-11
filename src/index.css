@@ -641,3 +641,82 @@ body {
 #root {
   min-height: 100svh;
 }
+
+/* ——— Advanced motion layer ——— */
+.section-heading {
+  overflow: hidden;
+}
+
+.section-heading-line {
+  display: block;
+}
+
+.service-card,
+.card-interactive {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.hero-particles {
+  mix-blend-mode: screen;
+}
+
+.custom-cursor-dot,
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+.custom-cursor-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-cobalt);
+}
+
+.custom-cursor-ring {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgb(10 35 115 / 0.45);
+}
+
+html.custom-cursor-active,
+html.custom-cursor-active * {
+  cursor: none !important;
+}
+
+.footer-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.footer-marquee-track {
+  display: inline-flex;
+  width: max-content;
+}
+
+.footer-marquee-item {
+  padding-inline: 3rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.custom-cursor-active,
+  html.custom-cursor-active * {
+    cursor: auto !important;
+  }
+
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none;
+  }
+}

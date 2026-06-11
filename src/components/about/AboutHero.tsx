@@ -28,7 +28,7 @@ export function AboutHero() {
       <SectionContainer className="about-hero-inner">
         <div className="about-hero-stack">
           <RevealSplit className="card-grid grid shrink-0 grid-cols-1 md:grid-cols-2">
-            <h1 className="p-4 text-xl font-bold uppercase leading-tight tracking-tight text-ink sm:p-5 sm:text-2xl md:p-6 md:text-3xl lg:p-8 lg:text-4xl">
+            <h1 className="section-heading p-4 text-xl font-bold uppercase leading-tight tracking-tight text-ink sm:p-5 sm:text-2xl md:p-6 md:text-3xl lg:p-8 lg:text-4xl">
               Discover our journey and what drives us
             </h1>
             <p className="p-4 text-sm leading-relaxed text-muted sm:p-5 md:p-6 md:text-base lg:p-8 lg:text-lg">

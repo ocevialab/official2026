@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import gsap from 'gsap'
+import { getLenis } from '../../lib/lenis'
+import { prefersReducedMotion } from '../../lib/motion'
 import { Button } from '../ui/Button'
 import { Logo } from '../ui/Logo'
 
@@ -44,6 +47,7 @@ const SCROLL_TOP_ZONE = 10
 const SCROLL_DELTA = 5
 
 export function Header() {
+  const headerRef = useRef<HTMLElement>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
@@ -66,8 +70,35 @@ export function Header() {
   }, [menuOpen])
 
   useEffect(() => {
-    const onScroll = () => {
-      const currentScrollY = window.scrollY
+    const header = headerRef.current
+    if (!header || prefersReducedMotion()) return
+
+    const applyGlass = (scrollY: number) => {
+      const blurred = scrollY > 60
+      gsap.to(header, {
+        backdropFilter: blurred ? 'blur(14px)' : 'blur(0px)',
+        duration: 0.4,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      })
+    }
+
+    const lenis = getLenis()
+    if (lenis) {
+      const onLenisScroll = ({ scroll }: { scroll: number }) => applyGlass(scroll)
+      lenis.on('scroll', onLenisScroll)
+      applyGlass(lenis.scroll)
+      return () => lenis.off('scroll', onLenisScroll)
+    }
+
+    const onGlassScroll = () => applyGlass(window.scrollY)
+    window.addEventListener('scroll', onGlassScroll, { passive: true })
+    onGlassScroll()
+    return () => window.removeEventListener('scroll', onGlassScroll)
+  }, [])
+
+  useEffect(() => {
+    const handleScroll = (currentScrollY: number) => {
       const delta = currentScrollY - lastScrollY.current
 
       setScrolled(currentScrollY > SCROLL_STYLE_THRESHOLD)
@@ -85,9 +116,18 @@ export function Header() {
       lastScrollY.current = currentScrollY
     }
 
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    const lenis = getLenis()
+    if (lenis) {
+      const onLenisScroll = ({ scroll }: { scroll: number }) => handleScroll(scroll)
+      lenis.on('scroll', onLenisScroll)
+      handleScroll(lenis.scroll)
+      return () => lenis.off('scroll', onLenisScroll)
+    }
+
+    const onWindowScroll = () => handleScroll(window.scrollY)
+    window.addEventListener('scroll', onWindowScroll, { passive: true })
+    onWindowScroll()
+    return () => window.removeEventListener('scroll', onWindowScroll)
   }, [menuOpen])
 
   useEffect(() => {
@@ -103,6 +143,7 @@ export function Header() {
 
   return (
     <header
+      ref={headerRef}
       aria-hidden={!isVisible}
       className={`fixed z-50 transition-all duration-300 ease-in-out ${
         isHome ? 'inset-x-0 top-0' : 'site-header-inset'

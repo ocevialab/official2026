@@ -21,7 +21,7 @@ export function ProjectsPage() {
 
             <SectionHeader
               heading="h1"
-              titleClassName="max-w-4xl text-3xl font-bold uppercase leading-tight tracking-tight text-ink sm:text-4xl md:text-5xl lg:text-6xl"
+              titleClassName="section-heading max-w-4xl text-3xl font-bold uppercase leading-tight tracking-tight text-ink sm:text-4xl md:text-5xl lg:text-6xl"
               title={
                 <>
                   Crafting works

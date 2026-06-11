@@ -1,5 +1,7 @@
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { SCROLL_REVEAL_FOOTER_START } from '../../lib/motion'
+import gsap from 'gsap'
+import { SCROLL_REVEAL_FOOTER_START, prefersReducedMotion } from '../../lib/motion'
 import { buttonClassName } from '../ui/Button'
 import { RevealStagger } from '../ui/Reveal'
 import { Logo } from '../ui/Logo'
@@ -14,14 +16,34 @@ const serviceLinks = [
   'Branding & Identity',
 ]
 
+const copyrightText = `Copyright © ${new Date().getFullYear()} Ocevia Lab.`
+
 export function Footer() {
+  const marqueeRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const track = marqueeRef.current
+    if (!track || prefersReducedMotion()) return
+
+    const tween = gsap.to(track, {
+      xPercent: -50,
+      ease: 'none',
+      repeat: -1,
+      duration: 18,
+    })
+
+    return () => {
+      tween.kill()
+    }
+  }, [])
+
   return (
-    <footer className="w-full bg-white text-ink">
+    <footer className="footer w-full bg-white text-ink">
       <RevealStagger
         scrollStart={SCROLL_REVEAL_FOOTER_START}
         className="card-grid footer-grid grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
       >
-        <div data-reveal-item className="flex flex-col gap-5 p-8 lg:p-10">
+        <div data-reveal-item className="footer-col flex flex-col gap-5 p-8 lg:p-10">
           <Link to="/" className="inline-flex w-fit transition hover:opacity-80">
             <Logo variant="colored" className="h-14 w-auto sm:h-16" />
           </Link>
@@ -31,15 +53,12 @@ export function Footer() {
           <SocialIcons />
         </div>
 
-        <div data-reveal-item className="p-8 lg:p-10">
+        <div data-reveal-item className="footer-col p-8 lg:p-10">
           <h3 className="mb-5 text-sm font-bold uppercase tracking-widest text-ink">Services</h3>
           <ul className="flex flex-col gap-3">
             {serviceLinks.map((item) => (
               <li key={item}>
-                <Link
-                  to="/services"
-                  className="micro-link text-sm text-muted hover:text-ink"
-                >
+                <Link to="/services" className="micro-link text-sm text-muted hover:text-ink">
                   {item}
                 </Link>
               </li>
@@ -47,7 +66,7 @@ export function Footer() {
           </ul>
         </div>
 
-        <div data-reveal-item className="p-8 lg:p-10">
+        <div data-reveal-item className="footer-col p-8 lg:p-10">
           <h3 className="mb-5 text-sm font-bold uppercase tracking-widest text-ink">Contact Us</h3>
           <ul className="flex flex-col gap-4 text-sm leading-relaxed text-muted">
             <li>
@@ -65,22 +84,16 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a
-                href="mailto:ocevialab@gmail.com"
-                className="micro-link hover:text-ink"
-              >
+              <a href="mailto:ocevialab@gmail.com" className="micro-link hover:text-ink">
                 ocevialab@gmail.com
               </a>
             </li>
           </ul>
         </div>
 
-        <div data-reveal-item className="p-8 lg:p-10">
+        <div data-reveal-item className="footer-col p-8 lg:p-10">
           <h3 className="mb-5 text-sm font-bold uppercase tracking-widest text-ink">Subscribe</h3>
-          <form
-            className="flex border border-grid-border"
-            onSubmit={(e) => e.preventDefault()}
-          >
+          <form className="flex border border-grid-border" onSubmit={(e) => e.preventDefault()}>
             <input
               type="email"
               name="email"
@@ -97,10 +110,15 @@ export function Footer() {
           </p>
         </div>
 
-        <div className="footer-copyright px-8 py-6 sm:col-span-2 lg:col-span-4 lg:px-10">
-          <p className="text-sm font-bold uppercase tracking-widest text-white">
-            Copyright © {new Date().getFullYear()} Ocevia Lab.
-          </p>
+        <div className="footer-copyright overflow-hidden px-0 py-6 sm:col-span-2 lg:col-span-4">
+          <div className="footer-marquee">
+            <div ref={marqueeRef} className="footer-marquee-track">
+              <span className="footer-marquee-item">{copyrightText}</span>
+              <span className="footer-marquee-item" aria-hidden="true">
+                {copyrightText}
+              </span>
+            </div>
+          </div>
         </div>
       </RevealStagger>
     </footer>

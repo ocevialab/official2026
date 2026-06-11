@@ -8,7 +8,7 @@ export function AboutWhoWeAre() {
       <SectionContainer className="pb-0">
         <RevealSplit className="card-grid grid w-full grid-cols-1 lg:grid-cols-2 lg:items-stretch">
           <div className="flex flex-col justify-center p-8 lg:p-12">
-            <h2 className="text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl">
+            <h2 className="section-heading text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl">
               Who we are
             </h2>
 

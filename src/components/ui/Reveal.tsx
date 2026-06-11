@@ -101,7 +101,7 @@ export function Reveal({
   )
 
   return (
-    <Component ref={containerRef} className={className} style={style}>
+    <Component ref={containerRef} className={className} style={style} data-scroll-reveal>
       {children}
     </Component>
   )
@@ -185,7 +185,7 @@ export function RevealStagger({
   )
 
   return (
-    <Component ref={containerRef} className={className}>
+    <Component ref={containerRef} className={className} data-scroll-reveal>
       {children}
     </Component>
   )
@@ -239,7 +239,7 @@ export function RevealSplit({
   )
 
   return (
-    <Component ref={containerRef} className={className}>
+    <Component ref={containerRef} className={className} data-scroll-reveal>
       {children}
     </Component>
   )
@@ -254,4 +254,4 @@ export function RevealClipTarget({
 }) {
   return <div className={`reveal-clip-target ${className}`.trim()}>{children}</div>
 }
-
+

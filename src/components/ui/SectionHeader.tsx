@@ -13,7 +13,7 @@ type SectionHeaderProps = {
 }
 
 const defaultTitleClass =
-  'text-3xl font-bold uppercase leading-tight tracking-tight text-ink md:text-4xl lg:text-5xl'
+  'section-heading text-3xl font-bold uppercase leading-tight tracking-tight text-ink md:text-4xl lg:text-5xl'
 
 export function SectionHeader({
   title,

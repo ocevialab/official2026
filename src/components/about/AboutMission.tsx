@@ -1,5 +1,12 @@
+import { useEffect, useRef } from 'react'
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
+import { bindCardTilt } from '../../lib/cardTilt'
+import { prefersReducedMotion, registerGsapPlugins, revealScrollTrigger } from '../../lib/motion'
 import { Reveal, RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
+
+registerGsapPlugins()
 
 function StarRating() {
   return (
@@ -21,24 +28,73 @@ function StarRating() {
 
 const stats = [
   {
-    value: '95%',
+    value: 95,
+    suffix: '%',
     label: 'Client satisfaction rate, reflecting our dedication to quality delivery.',
   },
   {
-    value: '10+',
+    value: 10,
+    suffix: '+',
     label: 'Years of innovation and insight across product and platform engineering.',
   },
   {
-    value: '40+',
+    value: 40,
+    suffix: '+',
     label: 'Projects delivered with secure, scalable, and maintainable architecture.',
   },
   {
-    value: '30+',
+    value: 30,
+    suffix: '+',
     label: 'Teams worldwide partnered with for long-term technical success.',
   },
 ]
 
 export function AboutMission() {
+  const statsRef = useRef<HTMLDivElement>(null)
+
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) return
+
+      const root = statsRef.current
+      if (!root) return
+
+      const counters = root.querySelectorAll<HTMLElement>('.stat-number')
+      const tweens: gsap.core.Tween[] = []
+
+      counters.forEach((el) => {
+        const target = Number(el.dataset.target ?? 0)
+        const suffix = el.dataset.suffix ?? ''
+        const counter = { val: 0 }
+
+        const tween = gsap.to(counter, {
+          val: target,
+          duration: 2,
+          ease: 'power2.out',
+          scrollTrigger: revealScrollTrigger(el, 'top 85%'),
+          onUpdate: () => {
+            el.textContent = `${Math.round(counter.val)}${suffix}`
+          },
+        })
+
+        tweens.push(tween)
+      })
+
+      return () => tweens.forEach((tween) => tween.kill())
+    },
+    { scope: statsRef },
+  )
+
+  useEffect(() => {
+    const root = statsRef.current
+    if (!root) return
+
+    const cards = root.querySelectorAll<HTMLElement>('.card-interactive')
+    const cleanups = Array.from(cards).map((card) => bindCardTilt(card))
+
+    return () => cleanups.forEach((fn) => fn())
+  }, [])
+
   return (
     <section className="w-full bg-white">
       <SectionContainer className="pb-8 lg:pb-12">
@@ -49,7 +105,7 @@ export function AboutMission() {
             </div>
 
             <div className="max-w-4xl">
-              <h2 className="text-2xl font-bold uppercase leading-snug tracking-tight text-ink md:text-3xl lg:text-4xl">
+              <h2 className="section-heading text-2xl font-bold uppercase leading-snug tracking-tight text-ink md:text-3xl lg:text-4xl">
                 We are passionate about empowering individuals and businesses to build software that
                 scales, performs, and lasts.
               </h2>
@@ -65,14 +121,22 @@ export function AboutMission() {
             </div>
           </Reveal>
 
-          <RevealStagger className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-            {stats.map((stat) => (
-              <div key={stat.value} className="card-interactive px-6 py-10 lg:px-10 lg:py-12">
-                <p className="text-4xl font-bold tracking-tight text-ink md:text-5xl">{stat.value}</p>
-                <p className="mt-4 text-sm leading-relaxed text-muted">{stat.label}</p>
-              </div>
-            ))}
-          </RevealStagger>
+          <div ref={statsRef}>
+            <RevealStagger className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+              {stats.map((stat) => (
+                <div key={stat.suffix + stat.value} className="card-interactive px-6 py-10 lg:px-10 lg:py-12">
+                  <p
+                    className="stat-number text-4xl font-bold tracking-tight text-ink md:text-5xl"
+                    data-target={stat.value}
+                    data-suffix={stat.suffix}
+                  >
+                    0{stat.suffix}
+                  </p>
+                  <p className="mt-4 text-sm leading-relaxed text-muted">{stat.label}</p>
+                </div>
+              ))}
+            </RevealStagger>
+          </div>
         </div>
       </SectionContainer>
     </section>

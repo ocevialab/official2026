@@ -1,5 +1,7 @@
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { homeServices } from '../../data/services'
+import { bindCardTilt } from '../../lib/cardTilt'
 import { RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
 import { SectionHeader } from '../ui/SectionHeader'
@@ -37,7 +39,7 @@ function ServiceCard({
   return (
     <Link
       to={to}
-      className="card-interactive group flex min-h-[280px] flex-col p-6 sm:min-h-[300px] lg:min-h-[320px] lg:p-8"
+      className="service-card card-interactive group flex min-h-[280px] flex-col p-6 sm:min-h-[300px] lg:min-h-[320px] lg:p-8"
     >
       <div className="flex justify-end">
         <ArrowIcon className="micro-arrow shrink-0 text-ink group-hover:text-white" />
@@ -60,6 +62,18 @@ function ServiceCard({
 }
 
 export function ServicesSection() {
+  const cardsRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const root = cardsRef.current
+    if (!root) return
+
+    const cards = root.querySelectorAll<HTMLElement>('.service-card')
+    const cleanups = Array.from(cards).map((card) => bindCardTilt(card))
+
+    return () => cleanups.forEach((fn) => fn())
+  }, [])
+
   return (
     <section className="w-full bg-white">
       <SectionContainer>
@@ -71,11 +85,13 @@ export function ServicesSection() {
             buttonTo="/services"
           />
 
-          <RevealStagger className="service-card-grid grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-            {homeServices.map((service) => (
-              <ServiceCard key={service.number} {...service} />
-            ))}
-          </RevealStagger>
+          <div ref={cardsRef}>
+            <RevealStagger className="service-card-grid grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+              {homeServices.map((service) => (
+                <ServiceCard key={service.number} {...service} />
+              ))}
+            </RevealStagger>
+          </div>
         </div>
       </SectionContainer>
     </section>
