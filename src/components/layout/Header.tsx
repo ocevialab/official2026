@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import gsap from 'gsap'
 import { getLenis } from '../../lib/lenis'
@@ -44,10 +44,11 @@ function MenuIcon({ open, light }: { open: boolean; light?: boolean }) {
 
 const SCROLL_STYLE_THRESHOLD = 24
 const SCROLL_TOP_ZONE = 10
-const SCROLL_DELTA = 5
 
 export function Header() {
   const headerRef = useRef<HTMLElement>(null)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const mobileNavRef = useRef<HTMLElement>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
@@ -66,6 +67,30 @@ export function Header() {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
+    }
+  }, [menuOpen])
+
+  useLayoutEffect(() => {
+    if (isVisible) return
+
+    const header = headerRef.current
+    if (!header) return
+
+    const active = document.activeElement
+    if (active instanceof HTMLElement && header.contains(active)) {
+      active.blur()
+    }
+  }, [isVisible])
+
+  useLayoutEffect(() => {
+    if (menuOpen) return
+
+    const mobileNav = mobileNavRef.current
+    if (!mobileNav) return
+
+    const active = document.activeElement
+    if (active instanceof HTMLElement && mobileNav.contains(active)) {
+      menuButtonRef.current?.focus()
     }
   }, [menuOpen])
 
@@ -105,11 +130,11 @@ export function Header() {
 
       if (menuOpen) {
         setIsVisible(true)
-      } else if (currentScrollY < SCROLL_TOP_ZONE) {
+      } else if (currentScrollY <= SCROLL_TOP_ZONE) {
         setIsVisible(true)
-      } else if (delta > SCROLL_DELTA) {
+      } else if (delta > 0) {
         setIsVisible(false)
-      } else if (delta < -SCROLL_DELTA) {
+      } else if (delta < 0) {
         setIsVisible(true)
       }
 
@@ -144,7 +169,7 @@ export function Header() {
   return (
     <header
       ref={headerRef}
-      aria-hidden={!isVisible}
+      inert={!isVisible ? true : undefined}
       className={`fixed z-50 transition-all duration-300 ease-in-out ${
         isHome ? 'inset-x-0 top-0' : 'site-header-inset'
       } ${
@@ -157,11 +182,11 @@ export function Header() {
           : 'border border-grid-border bg-white'
       }`}
     >
-      <div className="grid h-[var(--header-height)] w-full grid-cols-[1fr_auto_1fr] items-center">
+      <div className="grid h-[var(--header-height)] w-full grid-cols-[1fr_auto] items-center md:grid-cols-[1fr_auto_1fr]">
         <Link
           to="/"
           className={`flex shrink-0 items-center px-4 transition sm:px-6 ${
-            isTransparent ? 'hover:opacity-80' : 'border-r border-grid-border hover:bg-accent hover:text-white'
+            isTransparent ? 'hover:opacity-80' : ''
           }`}
         >
           <Logo
@@ -170,7 +195,11 @@ export function Header() {
           />
         </Link>
 
-        <nav className="hidden items-stretch justify-center md:flex">
+        <nav
+          className={`hidden items-stretch justify-center md:flex ${
+            isTransparent ? '' : 'border-l border-grid-border'
+          }`}
+        >
           {navItems.map((item) => (
             <NavLink
               key={item.path}
@@ -190,7 +219,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center justify-end gap-0 pr-4 sm:pr-5">
+        <div className="flex items-center justify-end gap-0 md:pr-5">
           <div className="hidden h-full md:flex">
             <Button
               to="/contact"
@@ -198,11 +227,12 @@ export function Header() {
                 isTransparent ? 'border-white bg-accent text-white' : 'border-0 border-l border-grid-border'
               }`}
             >
-              Contact
+              Inquire Now
             </Button>
           </div>
 
           <button
+            ref={menuButtonRef}
             type="button"
             className={`flex h-[var(--header-height)] w-14 items-center justify-center transition md:hidden ${
               isTransparent ? 'hover:opacity-80' : 'border-l border-grid-border hover:bg-accent hover:text-white'
@@ -225,12 +255,13 @@ export function Header() {
       )}
 
       <nav
-        className={`absolute inset-x-0 top-full z-50 flex flex-col border border-t-0 border-grid-border bg-white transition-all duration-300 md:hidden ${
+        ref={mobileNavRef}
+        inert={!menuOpen ? true : undefined}
+        className={`absolute inset-x-0 top-full z-50 flex flex-col border border-grid-border bg-white transition-all duration-300 md:hidden ${
           menuOpen
             ? 'visible translate-y-0 opacity-100'
             : 'pointer-events-none invisible -translate-y-2 opacity-0'
         }`}
-        aria-hidden={!menuOpen}
       >
         {navItems.map((item) => (
           <NavLink

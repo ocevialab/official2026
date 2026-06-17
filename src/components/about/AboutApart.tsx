@@ -40,7 +40,7 @@ export function AboutApart() {
     <section className="w-full bg-white">
       <SectionContainer className="pb-8 lg:pb-12">
         <div className="bento-stack">
-          <Reveal className="py-14 text-center lg:py-20">
+          <Reveal className="py-14 text-center lg:py-10">
             <h2 className="section-heading text-2xl font-bold uppercase tracking-tight text-ink md:text-3xl lg:text-4xl">
               Discover what sets us apart
             </h2>

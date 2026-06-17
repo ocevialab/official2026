@@ -4,6 +4,7 @@ import { useLottie } from 'lottie-react'
 import gsap from 'gsap'
 import SplitType from 'split-type'
 import * as THREE from 'three'
+import { OCEVIA_WHATSAPP_URL } from '../../data/contact'
 import { Button } from '../ui/Button'
 import { bindMagnetic } from '../../lib/cardTilt'
 import {
@@ -15,7 +16,6 @@ import { OCEVIA_EASE, prefersReducedMotion, registerGsapPlugins } from '../../li
 
 registerGsapPlugins()
 
-const WHATSAPP_URL = 'https://wa.me/1234567890'
 const LOTTIE_READY_TIMEOUT_MS = 8000
 
 function useLottieAnimation(path: string) {
@@ -310,7 +310,7 @@ export function Hero() {
             Request a Proposal
           </Button>
           <Button
-            href={WHATSAPP_URL}
+            href={OCEVIA_WHATSAPP_URL}
             variant="outline"
             className="hero-cta w-full border-white bg-white text-ink hover:bg-accent hover:text-white sm:w-auto"
             ref={secondaryCtaRef}

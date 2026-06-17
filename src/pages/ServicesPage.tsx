@@ -3,6 +3,7 @@ import { ServicePageCard } from '../components/services/ServicePageCard'
 import { PageSection } from '../components/ui/PageSection'
 import { RevealStagger } from '../components/ui/Reveal'
 import { services } from '../data/services'
+import { OCEVIA_WHATSAPP_URL } from '../data/contact'
 
 export function ServicesPage() {
   return (
@@ -32,7 +33,7 @@ export function ServicesPage() {
           title="How We Work"
           description="No confusion or delays—just a clear process from discovery to launch. We adapt to your stage with workshops, MVPs, or dedicated squads."
           buttonLabel="WhatsApp US"
-          buttonHref="https://wa.me/1234567890"
+          buttonHref={OCEVIA_WHATSAPP_URL}
         />
       </section>
     </div>

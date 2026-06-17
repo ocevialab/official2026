@@ -28,7 +28,7 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
         fullScreen ? 'flex min-h-[calc(100dvh-var(--main-content-offset))] items-center' : ''
       }`}
     >
-      <SectionContainer className={`w-full ${fullScreen ? 'py-8 lg:py-10' : ''}`}>
+      <SectionContainer className={`w-full ${fullScreen ? 'py-8 lg:py-1' : ''}`}>
         <RevealSplit className="card-grid grid w-full grid-cols-1 lg:grid-cols-2">
           <div className="flex flex-col justify-center p-8 lg:p-12">
             <span className="grid-label mb-6 w-fit">Book a call</span>

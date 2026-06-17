@@ -86,7 +86,7 @@ export function AboutMission() {
 
   return (
     <section className="w-full bg-white">
-      <SectionContainer className="pb-8 lg:pb-12">
+      <SectionContainer className="pb-8 lg:pb-3">
         <div className="bento-stack">
           <Reveal className="relative pb-10 pt-0 lg:pb-16 lg:pt-0">
             <div className="absolute right-0 top-0 hidden md:block">

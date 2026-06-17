@@ -13,7 +13,7 @@ export function ProjectsPage() {
   return (
     <div className="section-stack">
       <section className="w-full bg-white">
-        <SectionContainer className="pb-8 lg:pb-12">
+        <SectionContainer className="pb-8 lg:pb-1">
           <div className="bento-stack">
             <Reveal>
               <ProjectFilters active={activeFilter} onChange={setActiveFilter} />
@@ -32,7 +32,10 @@ export function ProjectsPage() {
               description="Navigating a digital landscape tailored to diverse industries, we specialize in crafting innovative solutions that drive success in your indusrty. Let's explore the Our client portafolio."
             />
 
-            <RevealStagger className="card-grid grid w-full grid-cols-1 items-stretch md:grid-cols-2">
+            <RevealStagger
+              key={activeFilter}
+              className="projects-page-grid grid w-full grid-cols-1 items-stretch md:grid-cols-2"
+            >
               {filteredProjects.map((project) => (
                 <ProjectCard key={project.slug} {...project} />
               ))}
