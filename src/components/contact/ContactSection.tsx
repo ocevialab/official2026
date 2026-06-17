@@ -1,3 +1,10 @@
+import { useState } from 'react'
+import emailjs from '@emailjs/browser'
+import {
+  EMAILJS_PUBLIC_KEY,
+  EMAILJS_SERVICE_ID,
+  EMAILJS_TEMPLATE_ID,
+} from '../../data/contact'
 import { RevealSplit, RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
 import { Button } from '../ui/Button'
@@ -20,7 +27,39 @@ type ContactSectionProps = {
   fullScreen?: boolean
 }
 
+type FormStatus = 'idle' | 'sending' | 'success' | 'error'
+
 export function ContactSection({ fullScreen = false }: ContactSectionProps) {
+  const [formStatus, setFormStatus] = useState<FormStatus>('idle')
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const form = event.currentTarget
+    const formData = new FormData(form)
+
+    setFormStatus('sending')
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name: String(formData.get('name') ?? ''),
+          email: String(formData.get('email') ?? ''),
+          phone: String(formData.get('phone') ?? ''),
+          business: String(formData.get('business') ?? ''),
+        },
+        { publicKey: EMAILJS_PUBLIC_KEY },
+      )
+
+      setFormStatus('success')
+      form.reset()
+    } catch {
+      setFormStatus('error')
+    }
+  }
+
   return (
     <section
       id="contact"
@@ -57,84 +96,96 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
           </div>
 
           <RevealStagger className="flex flex-col p-8 lg:p-12">
-            <form
-              className="contents"
-              onSubmit={(e) => {
-                e.preventDefault()
-              }}
-            >
-            <label className="block">
-              <span className="text-xs font-bold uppercase tracking-widest text-ink">
-                Name <span className="text-muted">*</span>
-              </span>
-              <input
-                type="text"
-                name="name"
-                required
-                className="input-interactive mt-2 w-full border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent"
-              />
-            </label>
+            <form className="contents" onSubmit={handleSubmit}>
+              <label className="block">
+                <span className="text-xs font-bold uppercase tracking-widest text-ink">
+                  Name <span className="text-muted">*</span>
+                </span>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  disabled={formStatus === 'sending'}
+                  className="input-interactive mt-2 w-full border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent disabled:opacity-60"
+                />
+              </label>
 
-            <label className="mt-6 block">
-              <span className="text-xs font-bold uppercase tracking-widest text-ink">
-                Email <span className="text-muted">*</span>
-              </span>
-              <input
-                type="email"
-                name="email"
-                required
-                className="input-interactive mt-2 w-full border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent"
-              />
-            </label>
+              <label className="mt-6 block">
+                <span className="text-xs font-bold uppercase tracking-widest text-ink">
+                  Email <span className="text-muted">*</span>
+                </span>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  disabled={formStatus === 'sending'}
+                  className="input-interactive mt-2 w-full border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent disabled:opacity-60"
+                />
+              </label>
 
-            <label className="mt-6 block">
-              <span className="text-xs font-bold uppercase tracking-widest text-ink">
-                Contact number <span className="text-muted">*</span>
-              </span>
-              <input
-                type="tel"
-                name="phone"
-                required
-                className="input-interactive mt-2 w-full border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent"
-              />
-            </label>
+              <label className="mt-6 block">
+                <span className="text-xs font-bold uppercase tracking-widest text-ink">
+                  Contact number <span className="text-muted">*</span>
+                </span>
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  disabled={formStatus === 'sending'}
+                  className="input-interactive mt-2 w-full border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent disabled:opacity-60"
+                />
+              </label>
 
-            <label className="mt-6 block">
-              <span className="text-xs font-bold uppercase tracking-widest text-ink">
-                Tell us about your business... <span className="text-muted">*</span>
-              </span>
-              <textarea
-                name="message"
-                required
-                rows={3}
-                className="input-interactive mt-2 w-full resize-none border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent"
-              />
-            </label>
+              <label className="mt-6 block">
+                <span className="text-xs font-bold uppercase tracking-widest text-ink">
+                  Tell us about your business... <span className="text-muted">*</span>
+                </span>
+                <textarea
+                  name="business"
+                  required
+                  rows={3}
+                  disabled={formStatus === 'sending'}
+                  className="input-interactive mt-2 w-full resize-none border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent disabled:opacity-60"
+                />
+              </label>
 
-            <div className="mt-8">
-              <Button type="submit" className="w-full sm:w-auto">
-                Book a call
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  aria-hidden="true"
-                  className="micro-arrow"
-                >
-                  <path
-                    d="M5 15L15 5M15 5H8M15 5V12"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </Button>
-              <p className="mt-4 text-center text-xs text-muted sm:text-left">
-                By submitting, you agree to our terms &amp; conditions.
-              </p>
-            </div>
+              <div className="mt-8">
+                <Button type="submit" className="w-full sm:w-auto" disabled={formStatus === 'sending'}>
+                  {formStatus === 'sending' ? 'Sending...' : 'Book a call'}
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    aria-hidden="true"
+                    className="micro-arrow"
+                  >
+                    <path
+                      d="M5 15L15 5M15 5H8M15 5V12"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </Button>
+
+                {formStatus === 'success' && (
+                  <p className="mt-4 text-sm text-ink" role="status">
+                    Thank you! Your message has been sent. We&apos;ll be in touch soon.
+                  </p>
+                )}
+
+                {formStatus === 'error' && (
+                  <p className="mt-4 text-sm text-red-700" role="alert">
+                    Something went wrong. Please try again or email us directly.
+                  </p>
+                )}
+
+                <p className="mt-4 text-center text-xs text-muted sm:text-left">
+                  By submitting, you agree to our terms &amp; conditions.
+                </p>
+              </div>
             </form>
           </RevealStagger>
         </RevealSplit>

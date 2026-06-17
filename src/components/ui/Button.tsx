@@ -42,6 +42,8 @@ type ButtonProps = {
 
   className?: string
 
+  disabled?: boolean
+
 }
 
 
@@ -50,7 +52,7 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
 
   function Button(
 
-    { children, to, href, onClick, type = 'button', variant = 'primary', className = '' },
+    { children, to, href, onClick, type = 'button', variant = 'primary', className = '', disabled },
 
     ref,
 
@@ -111,6 +113,8 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
         type={type}
 
         onClick={onClick}
+
+        disabled={disabled}
 
         className={styles}
 
