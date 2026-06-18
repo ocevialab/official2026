@@ -151,7 +151,7 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
 
               <div className="mt-8">
                 <Button type="submit" className="w-full sm:w-auto" disabled={formStatus === 'sending'}>
-                  {formStatus === 'sending' ? 'Sending...' : 'Book a call'}
+                  {formStatus === 'sending' ? 'Sending...' : 'Send Inquiry'}
                   <svg
                     width="18"
                     height="18"
