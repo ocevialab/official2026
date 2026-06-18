@@ -46,16 +46,21 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
   const intent = resolveContactIntent(searchParams, !fullScreen)
   const copy = CONTACT_INTENT_COPY[intent]
   const [formStatus, setFormStatus] = useState<FormStatus>('idle')
+  const [message, setMessage] = useState(copy.defaultMessage ?? '')
 
   useEffect(() => {
     setFormStatus('idle')
-  }, [intent])
+    setMessage(copy.defaultMessage ?? '')
+  }, [intent, copy.defaultMessage])
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     const form = event.currentTarget
     const formData = new FormData(form)
+    const messageValue =
+      message.trim() ||
+      String((form.elements.namedItem('message') as HTMLTextAreaElement | null)?.value ?? '')
 
     setFormStatus('sending')
 
@@ -67,7 +72,8 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
           name: String(formData.get('name') ?? ''),
           email: String(formData.get('email') ?? ''),
           phone: String(formData.get('phone') ?? ''),
-          business: String(formData.get('business') ?? ''),
+          message: messageValue,
+          business: messageValue,
           inquiry_type: String(formData.get('inquiry_type') ?? copy.inquiryType),
         },
         { publicKey: EMAILJS_PUBLIC_KEY },
@@ -75,6 +81,7 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
 
       setFormStatus('success')
       form.reset()
+      setMessage(copy.defaultMessage ?? '')
     } catch {
       setFormStatus('error')
     }
@@ -162,11 +169,12 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
                   {copy.messageLabel} <span className="text-muted">*</span>
                 </span>
                 <textarea
-                  name="business"
+                  name="message"
                   required
                   rows={3}
+                  value={message}
+                  onChange={(event) => setMessage(event.target.value)}
                   disabled={formStatus === 'sending'}
-                  defaultValue={copy.defaultMessage}
                   className="input-interactive mt-2 w-full resize-none border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent disabled:opacity-60"
                 />
               </label>
