@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import {
+  CONTACT_INTENT_COPY,
   EMAILJS_PUBLIC_KEY,
   EMAILJS_SERVICE_ID,
   EMAILJS_TEMPLATE_ID,
+  resolveContactIntent,
 } from '../../data/contact'
 import { RevealSplit, RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
@@ -30,7 +33,14 @@ type ContactSectionProps = {
 type FormStatus = 'idle' | 'sending' | 'success' | 'error'
 
 export function ContactSection({ fullScreen = false }: ContactSectionProps) {
+  const [searchParams] = useSearchParams()
+  const intent = resolveContactIntent(searchParams, !fullScreen)
+  const copy = CONTACT_INTENT_COPY[intent]
   const [formStatus, setFormStatus] = useState<FormStatus>('idle')
+
+  useEffect(() => {
+    setFormStatus('idle')
+  }, [intent])
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -49,6 +59,7 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
           email: String(formData.get('email') ?? ''),
           phone: String(formData.get('phone') ?? ''),
           business: String(formData.get('business') ?? ''),
+          inquiry_type: String(formData.get('inquiry_type') ?? copy.inquiryType),
         },
         { publicKey: EMAILJS_PUBLIC_KEY },
       )
@@ -70,13 +81,12 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
       <SectionContainer className={`w-full ${fullScreen ? 'py-8 lg:py-1' : ''}`}>
         <RevealSplit className="card-grid grid w-full grid-cols-1 lg:grid-cols-2">
           <div className="flex flex-col justify-center p-8 lg:p-12">
-            <span className="grid-label mb-6 w-fit">Start a project</span>
+            <span className="grid-label mb-6 w-fit">{copy.label}</span>
             <h1 className="section-heading text-4xl font-bold uppercase tracking-tight text-ink md:text-5xl lg:text-6xl">
-              Let&apos;s get started
+              {copy.heading}
             </h1>
             <p className="mt-6 max-w-md text-base leading-relaxed text-muted md:text-lg">
-              Ready to build something exceptional? Get in touch and we&apos;ll show you what&apos;s
-              possible for your product, platform, and team.
+              {copy.description}
             </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -96,7 +106,9 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
           </div>
 
           <RevealStagger className="flex flex-col p-8 lg:p-12">
-            <form className="contents" onSubmit={handleSubmit}>
+            <form key={intent} className="contents" onSubmit={handleSubmit}>
+              <input type="hidden" name="inquiry_type" value={copy.inquiryType} />
+
               <label className="block">
                 <span className="text-xs font-bold uppercase tracking-widest text-ink">
                   Name <span className="text-muted">*</span>
@@ -138,20 +150,21 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
 
               <label className="mt-6 block">
                 <span className="text-xs font-bold uppercase tracking-widest text-ink">
-                  Tell us about your business... <span className="text-muted">*</span>
+                  {copy.messageLabel} <span className="text-muted">*</span>
                 </span>
                 <textarea
                   name="business"
                   required
                   rows={3}
                   disabled={formStatus === 'sending'}
+                  defaultValue={copy.defaultMessage}
                   className="input-interactive mt-2 w-full resize-none border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent disabled:opacity-60"
                 />
               </label>
 
               <div className="mt-8">
                 <Button type="submit" className="w-full sm:w-auto" disabled={formStatus === 'sending'}>
-                  {formStatus === 'sending' ? 'Sending...' : 'Send Inquiry'}
+                  {formStatus === 'sending' ? 'Sending...' : copy.submitLabel}
                   <svg
                     width="18"
                     height="18"
@@ -172,7 +185,7 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
 
                 {formStatus === 'success' && (
                   <p className="mt-4 text-sm text-ink" role="status">
-                    Thank you! Your message has been sent. We&apos;ll be in touch soon.
+                    {copy.successMessage}
                   </p>
                 )}
 

@@ -4,7 +4,7 @@ import { useLottie } from 'lottie-react'
 import gsap from 'gsap'
 import SplitType from 'split-type'
 import * as THREE from 'three'
-import { OCEVIA_WHATSAPP_URL } from '../../data/contact'
+import { CONTACT_URLS, OCEVIA_WHATSAPP_URL } from '../../data/contact'
 import { Button } from '../ui/Button'
 import { bindMagnetic } from '../../lib/cardTilt'
 import {
@@ -306,7 +306,7 @@ export function Hero() {
             hiddenUntilReady ? 'opacity-0' : ''
           }`}
         >
-          <Button to="/contact" className="hero-cta w-full sm:w-auto" ref={primaryCtaRef}>
+          <Button to={CONTACT_URLS.proposal} className="hero-cta w-full sm:w-auto" ref={primaryCtaRef}>
             Request a Proposal
           </Button>
           <Button

@@ -3,14 +3,14 @@ import { useLocation } from 'react-router-dom'
 import { scrollToTop } from '../../lib/lenis'
 
 export function ScrollToTop() {
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
 
   useEffect(() => {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual'
     }
     scrollToTop(true)
-  }, [pathname])
+  }, [pathname, search])
 
   return null
 }
