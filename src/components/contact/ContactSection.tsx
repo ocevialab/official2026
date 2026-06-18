@@ -11,8 +11,15 @@ import {
 import { RevealSplit, RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
 import { Button } from '../ui/Button'
+import testimonial1 from '../../assets/testimonial_1 (1).jpg'
+import testimonial2 from '../../assets/testimonial_2.png'
+import testimonial3 from '../../assets/testimonial_3.png'
 
-const avatarColors = ['#00072d', '#0a2373', '#0a2373', '#123498']
+const testimonialAvatars = [
+  { src: testimonial1, alt: 'Client testimonial portrait' },
+  { src: testimonial2, alt: 'Client testimonial portrait' },
+  { src: testimonial3, alt: 'Client testimonial portrait' },
+]
 
 function StarRow() {
   return (
@@ -91,12 +98,12 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <div className="flex -space-x-2">
-                {avatarColors.map((color, i) => (
-                  <div
-                    key={i}
-                    className="h-9 w-9 rounded-full border-2 border-white"
-                    style={{ backgroundColor: color }}
-                    aria-hidden="true"
+                {testimonialAvatars.map((avatar) => (
+                  <img
+                    key={avatar.src}
+                    src={avatar.src}
+                    alt={avatar.alt}
+                    className="h-9 w-9 rounded-full border-2 border-white object-cover"
                   />
                 ))}
               </div>
