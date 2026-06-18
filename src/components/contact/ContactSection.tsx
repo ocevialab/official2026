@@ -1,15 +1,27 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import {
+  CONTACT_INTENT_COPY,
   EMAILJS_PUBLIC_KEY,
   EMAILJS_SERVICE_ID,
   EMAILJS_TEMPLATE_ID,
+  resolveContactIntent,
 } from '../../data/contact'
 import { RevealSplit, RevealStagger } from '../ui/Reveal'
 import { SectionContainer } from '../ui/SectionContainer'
 import { Button } from '../ui/Button'
+import testimonial1 from '../../assets/testimonial_1 (1).jpg'
+import testimonial2 from '../../assets/testimonial_2.png'
+import testimonial3 from '../../assets/testimonial_3.png'
+import nimalSafariLogo from '../../assets/image.png'
 
-const avatarColors = ['#00072d', '#0a2373', '#0a2373', '#123498']
+const testimonialAvatars = [
+  { src: testimonial1, alt: 'Client testimonial portrait' },
+  { src: testimonial2, alt: 'Client testimonial portrait' },
+  { src: testimonial3, alt: 'Client testimonial portrait' },
+  { src: nimalSafariLogo, alt: 'Nimal Safari Jeep Service' },
+]
 
 function StarRow() {
   return (
@@ -30,13 +42,25 @@ type ContactSectionProps = {
 type FormStatus = 'idle' | 'sending' | 'success' | 'error'
 
 export function ContactSection({ fullScreen = false }: ContactSectionProps) {
+  const [searchParams] = useSearchParams()
+  const intent = resolveContactIntent(searchParams, !fullScreen)
+  const copy = CONTACT_INTENT_COPY[intent]
   const [formStatus, setFormStatus] = useState<FormStatus>('idle')
+  const [message, setMessage] = useState(copy.defaultMessage ?? '')
+
+  useEffect(() => {
+    setFormStatus('idle')
+    setMessage(copy.defaultMessage ?? '')
+  }, [intent, copy.defaultMessage])
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     const form = event.currentTarget
     const formData = new FormData(form)
+    const messageValue =
+      message.trim() ||
+      String((form.elements.namedItem('message') as HTMLTextAreaElement | null)?.value ?? '')
 
     setFormStatus('sending')
 
@@ -48,13 +72,16 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
           name: String(formData.get('name') ?? ''),
           email: String(formData.get('email') ?? ''),
           phone: String(formData.get('phone') ?? ''),
-          business: String(formData.get('business') ?? ''),
+          message: messageValue,
+          business: messageValue,
+          inquiry_type: String(formData.get('inquiry_type') ?? copy.inquiryType),
         },
         { publicKey: EMAILJS_PUBLIC_KEY },
       )
 
       setFormStatus('success')
       form.reset()
+      setMessage(copy.defaultMessage ?? '')
     } catch {
       setFormStatus('error')
     }
@@ -70,23 +97,22 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
       <SectionContainer className={`w-full ${fullScreen ? 'py-8 lg:py-1' : ''}`}>
         <RevealSplit className="card-grid grid w-full grid-cols-1 lg:grid-cols-2">
           <div className="flex flex-col justify-center p-8 lg:p-12">
-            <span className="grid-label mb-6 w-fit">Book a call</span>
+            <span className="grid-label mb-6 w-fit">{copy.label}</span>
             <h1 className="section-heading text-4xl font-bold uppercase tracking-tight text-ink md:text-5xl lg:text-6xl">
-              Let&apos;s get started
+              {copy.heading}
             </h1>
             <p className="mt-6 max-w-md text-base leading-relaxed text-muted md:text-lg">
-              Ready to build something exceptional? Get in touch and we&apos;ll show you what&apos;s
-              possible for your product, platform, and team.
+              {copy.description}
             </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <div className="flex -space-x-2">
-                {avatarColors.map((color, i) => (
-                  <div
-                    key={i}
-                    className="h-9 w-9 rounded-full border-2 border-white"
-                    style={{ backgroundColor: color }}
-                    aria-hidden="true"
+                {testimonialAvatars.map((avatar) => (
+                  <img
+                    key={avatar.src}
+                    src={avatar.src}
+                    alt={avatar.alt}
+                    className="h-9 w-9 rounded-full border-2 border-white object-cover"
                   />
                 ))}
               </div>
@@ -96,7 +122,9 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
           </div>
 
           <RevealStagger className="flex flex-col p-8 lg:p-12">
-            <form className="contents" onSubmit={handleSubmit}>
+            <form key={intent} className="contents" onSubmit={handleSubmit}>
+              <input type="hidden" name="inquiry_type" value={copy.inquiryType} />
+
               <label className="block">
                 <span className="text-xs font-bold uppercase tracking-widest text-ink">
                   Name <span className="text-muted">*</span>
@@ -138,12 +166,14 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
 
               <label className="mt-6 block">
                 <span className="text-xs font-bold uppercase tracking-widest text-ink">
-                  Tell us about your business... <span className="text-muted">*</span>
+                  {copy.messageLabel} <span className="text-muted">*</span>
                 </span>
                 <textarea
-                  name="business"
+                  name="message"
                   required
                   rows={3}
+                  value={message}
+                  onChange={(event) => setMessage(event.target.value)}
                   disabled={formStatus === 'sending'}
                   className="input-interactive mt-2 w-full resize-none border border-grid-border bg-white px-4 py-3 text-base text-ink outline-none focus:bg-accent disabled:opacity-60"
                 />
@@ -151,7 +181,7 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
 
               <div className="mt-8">
                 <Button type="submit" className="w-full sm:w-auto" disabled={formStatus === 'sending'}>
-                  {formStatus === 'sending' ? 'Sending...' : 'Send Inquiry'}
+                  {formStatus === 'sending' ? 'Sending...' : copy.submitLabel}
                   <svg
                     width="18"
                     height="18"
@@ -172,7 +202,7 @@ export function ContactSection({ fullScreen = false }: ContactSectionProps) {
 
                 {formStatus === 'success' && (
                   <p className="mt-4 text-sm text-ink" role="status">
-                    Thank you! Your message has been sent. We&apos;ll be in touch soon.
+                    {copy.successMessage}
                   </p>
                 )}
 

@@ -3,7 +3,7 @@ import { ServicePageCard } from '../components/services/ServicePageCard'
 import { PageSection } from '../components/ui/PageSection'
 import { RevealStagger } from '../components/ui/Reveal'
 import { services } from '../data/services'
-import { OCEVIA_WHATSAPP_URL } from '../data/contact'
+import { CONTACT_URLS, OCEVIA_WHATSAPP_URL } from '../data/contact'
 
 export function ServicesPage() {
   return (
@@ -12,7 +12,7 @@ export function ServicesPage() {
         title="Our Services"
         description="Full-stack software engineering for teams at every stage. We combine product thinking with deep technical execution so you ship faster without sacrificing quality."
         buttonLabel="Request a Proposal"
-        buttonTo="/contact"
+        buttonTo={CONTACT_URLS.proposal}
       >
         <RevealStagger className="card-grid services-page-grid grid w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
           {services.map((service) => (

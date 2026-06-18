@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import gsap from 'gsap'
 import { getLenis } from '../../lib/lenis'
 import { prefersReducedMotion } from '../../lib/motion'
+import { CONTACT_URLS, resolveContactIntent } from '../../data/contact'
 import { Button } from '../ui/Button'
 import { Logo } from '../ui/Logo'
 
@@ -11,7 +12,7 @@ const navItems = [
   { label: 'Services', path: '/services' },
   { label: 'Projects', path: '/projects' },
   { label: 'About', path: '/about' },
-  { label: 'Contact', path: '/contact' },
+  { label: 'Contact', path: CONTACT_URLS.contact },
 ]
 
 function MenuIcon({ open, light }: { open: boolean; light?: boolean }) {
@@ -44,6 +45,22 @@ function MenuIcon({ open, light }: { open: boolean; light?: boolean }) {
 
 const SCROLL_STYLE_THRESHOLD = 24
 const SCROLL_TOP_ZONE = 10
+
+function isContactNavActive(search: string) {
+  return resolveContactIntent(new URLSearchParams(search)) === 'contact'
+}
+
+function isNavItemActive(path: string, label: string, pathname: string, search: string) {
+  if (label === 'Contact') {
+    return pathname === '/contact' && isContactNavActive(search)
+  }
+
+  if (path === '/') {
+    return pathname === '/'
+  }
+
+  return pathname === path || pathname.startsWith(`${path}/`)
+}
 
 export function Header() {
   const headerRef = useRef<HTMLElement>(null)
@@ -204,15 +221,16 @@ export function Header() {
             <NavLink
               key={item.path}
               to={item.path}
-              className={({ isActive }) =>
-                isTransparent
+              className={() => {
+                const active = isNavItemActive(item.path, item.label, location.pathname, location.search)
+                return isTransparent
                   ? `flex items-center px-5 text-xs font-bold uppercase tracking-widest text-white transition hover:text-white/80 ${
-                      isActive ? 'underline underline-offset-4' : ''
+                      active ? 'underline underline-offset-4' : ''
                     }`
                   : `flex items-center border-r border-grid-border px-5 text-xs font-bold uppercase tracking-widest transition last:border-r-0 hover:bg-accent hover:text-white ${
-                      isActive ? 'bg-accent text-white' : 'text-ink'
+                      active ? 'bg-accent text-white' : 'text-ink'
                     }`
-              }
+              }}
             >
               {item.label}
             </NavLink>
@@ -222,7 +240,7 @@ export function Header() {
         <div className="flex items-center justify-end gap-0 md:pr-5">
           <div className="hidden h-full md:flex">
             <Button
-              to="/contact"
+              to={CONTACT_URLS.inquiry}
               className={`h-full min-h-0 rounded-none px-6 ${
                 isTransparent ? 'border-white bg-accent text-white' : 'border-0 border-l border-grid-border'
               }`}
@@ -267,15 +285,19 @@ export function Header() {
           <NavLink
             key={item.path}
             to={item.path}
-            className={({ isActive }) =>
-              `border-b border-grid-border px-6 py-4 text-sm font-bold uppercase tracking-widest transition last:border-b-0 hover:bg-accent hover:text-white ${
-                isActive ? 'bg-accent text-white' : 'text-ink'
+            className={() => {
+              const active = isNavItemActive(item.path, item.label, location.pathname, location.search)
+              return `border-b border-grid-border px-6 py-4 text-sm font-bold uppercase tracking-widest transition hover:bg-accent hover:text-white ${
+                active ? 'bg-accent text-white' : 'text-ink'
               }`
-            }
+            }}
           >
             {item.label}
           </NavLink>
         ))}
+        <Button to={CONTACT_URLS.inquiry} className="m-4 w-[calc(100%-2rem)] rounded-none">
+          Inquire Now
+        </Button>
       </nav>
     </header>
   )
