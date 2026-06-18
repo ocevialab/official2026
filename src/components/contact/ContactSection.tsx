@@ -14,11 +14,13 @@ import { Button } from '../ui/Button'
 import testimonial1 from '../../assets/testimonial_1 (1).jpg'
 import testimonial2 from '../../assets/testimonial_2.png'
 import testimonial3 from '../../assets/testimonial_3.png'
+import nimalSafariLogo from '../../assets/image.png'
 
 const testimonialAvatars = [
   { src: testimonial1, alt: 'Client testimonial portrait' },
   { src: testimonial2, alt: 'Client testimonial portrait' },
   { src: testimonial3, alt: 'Client testimonial portrait' },
+  { src: nimalSafariLogo, alt: 'Nimal Safari Jeep Service' },
 ]
 
 function StarRow() {
