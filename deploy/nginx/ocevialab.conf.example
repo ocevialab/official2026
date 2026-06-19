@@ -1,0 +1,40 @@
+# Copy to the server (do not overwrite other site configs):
+#   sudo cp ocevialab.conf.example /etc/nginx/sites-available/ocevialab
+#   sudo ln -s /etc/nginx/sites-available/ocevialab /etc/nginx/sites-enabled/
+#   sudo nginx -t && sudo systemctl reload nginx
+#
+# Replace YOUR_DOMAIN with your real domain or server_name.
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name YOUR_DOMAIN www.YOUR_DOMAIN;
+
+    root /var/www/ocevialab;
+    index index.html;
+
+    # Security headers (adjust if other apps on this server use different policies)
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    # Gzip for static assets
+    gzip on;
+    gzip_types text/plain text/css application/javascript application/json image/svg+xml;
+    gzip_min_length 256;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|webp|woff2?)$ {
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
+    }
+
+    location = /index.html {
+        expires -1;
+        add_header Cache-Control "no-cache";
+    }
+}
