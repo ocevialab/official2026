@@ -17,6 +17,11 @@ const serviceLinks = [
 ]
 
 const copyrightText = `Copyright © ${new Date().getFullYear()} Ocevia Lab.`
+const MARQUEE_REPEAT = 8
+const marqueeItems = [
+  ...Array.from({ length: MARQUEE_REPEAT }, () => copyrightText),
+  ...Array.from({ length: MARQUEE_REPEAT }, () => copyrightText),
+]
 
 export function Footer() {
   const marqueeRef = useRef<HTMLDivElement>(null)
@@ -113,10 +118,15 @@ export function Footer() {
         <div className="footer-copyright overflow-hidden px-0 py-6 sm:col-span-2 lg:col-span-4">
           <div className="footer-marquee">
             <div ref={marqueeRef} className="footer-marquee-track">
-              <span className="footer-marquee-item">{copyrightText}</span>
-              <span className="footer-marquee-item" aria-hidden="true">
-                {copyrightText}
-              </span>
+              {marqueeItems.map((text, index) => (
+                <span
+                  key={index}
+                  className="footer-marquee-item"
+                  aria-hidden={index >= MARQUEE_REPEAT ? true : undefined}
+                >
+                  {text}
+                </span>
+              ))}
             </div>
           </div>
         </div>

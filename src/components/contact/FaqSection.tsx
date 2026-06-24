@@ -97,7 +97,7 @@ export function FaqSection() {
 
   return (
     <section className="w-full bg-white">
-      <SectionContainer className="py-14 lg:py-20">
+      <SectionContainer className="py-14 lg:py-1">
         <div className="bento-stack">
           <Reveal>
             <h2 className="text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl lg:text-5xl">

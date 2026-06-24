@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Reveal, RevealSplit } from '../components/ui/Reveal'
 import { SectionContainer } from '../components/ui/SectionContainer'
 import { getProjectBySlug } from '../data/projects'
@@ -23,39 +23,40 @@ export function ProjectDetailPage() {
 
   if (!project) {
     return (
-      <section className="w-full bg-white">
-        <SectionContainer className="py-20 text-center">
-          <h1 className="text-2xl font-bold uppercase text-ink">Project not found</h1>
-          <Link to="/projects" className="mt-6 inline-block font-bold uppercase tracking-widest hover:underline">
-            ← Back to projects
-          </Link>
-        </SectionContainer>
-      </section>
+        <section className="w-full bg-white">
+          <SectionContainer className="py-20 text-center">
+            <h1 className="text-2xl font-bold uppercase text-ink">Project not found</h1>
+            {/* <Link to="/projects" className="mt-6 inline-block font-bold uppercase tracking-widest hover:underline">
+              ← Back to project
+            </Link> */}
+          </SectionContainer>
+        </section>
     )
   }
 
   return (
     <div className="section-stack">
-      <section className="w-full bg-white">
-        <SectionContainer className="pt-8 pb-8 lg:pt-12">
-          <Link
-            to="/projects"
-            className="mb-4 inline-flex text-xs font-bold uppercase tracking-widest text-muted transition hover:text-ink hover:underline"
-          >
-            ← Back to projects
-          </Link>
-          <Reveal variant="clip" className="group aspect-[21/9] w-full overflow-hidden border border-grid-border">
-            <img
-              src={project.images.detail}
-              alt={`${project.title} project hero`}
-              className="img-hover-zoom h-full w-full object-cover object-center"
-            />
-          </Reveal>
-        </SectionContainer>
+      <section className="w-full bg-white lg:pt-12">
+        {/* <Link
+          to="/projects"
+          className="mb-4 inline-flex text-xs font-bold uppercase tracking-widest text-muted transition hover:text-ink hover:underline"
+        >
+          ← Back to projects
+        </Link> */}
+        <Reveal
+          variant="clip"
+          className="group relative -mt-[var(--main-content-offset)] h-[calc(100dvh-var(--header-height))] w-full overflow-hidden"
+        >
+          <img
+            src={project.images.detail}
+            alt={`${project.title} project hero`}
+            className="h-full w-full object-cover object-center"
+          />
+        </Reveal>
       </section>
 
       <section className="w-full bg-white">
-        <SectionContainer className="py-14 lg:py-20">
+        <SectionContainer className="py-10 lg:py-1">
           <RevealSplit className="card-grid grid grid-cols-1 lg:grid-cols-[1.5fr_1fr]">
             <div className="p-8 lg:p-12">
               <h1 className="text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl lg:text-5xl">

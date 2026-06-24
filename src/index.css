@@ -123,6 +123,16 @@
   box-shadow: inset 0 0 0 1px var(--color-grid-border);
 }
 
+.projects-page-grid {
+  gap: 0;
+  background-color: var(--color-white);
+}
+
+.projects-page-grid > * {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-grid-border);
+}
+
 /* One viewport: layout padding + fixed header offset (matches site-frame chrome) */
 .about-hero-section {
   height: calc(100svh - 2rem - var(--main-content-offset));
@@ -328,7 +338,6 @@
 }
 
 .site-frame {
-  border-top: 1px solid var(--color-grid-border);
   border-bottom: 1px solid var(--color-grid-border);
 }
 
@@ -571,6 +580,11 @@
 
 .input-interactive:focus {
   border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.input-interactive:focus::placeholder {
+  color: rgb(255 255 255 / 0.6);
 }
 
 .pill-interactive {
@@ -709,16 +723,19 @@ html.custom-cursor-active * {
 
 .footer-marquee {
   overflow: hidden;
+  width: 100%;
   white-space: nowrap;
 }
 
 .footer-marquee-track {
   display: inline-flex;
   width: max-content;
+  will-change: transform;
 }
 
 .footer-marquee-item {
-  padding-inline: 3rem;
+  flex-shrink: 0;
+  padding-inline: 2.5rem;
   font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.12em;
